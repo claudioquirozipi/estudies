@@ -1,0 +1,218 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  color: string;
+  topic: string;
+}
+
+const { title, description, color, topic } = Astro.props;
+---
+
+<Layout title={`${title} — Mi Cuaderno`} description={description}>
+  <div class="page-wrapper">
+    <header class="topic-header">
+      <nav class="breadcrumb">
+        <a href="/">← Inicio</a>
+        <span class="sep">/</span>
+        <span>{title}</span>
+      </nav>
+      <div class="topic-meta">
+        <span
+          class="topic-label"
+          style={`background: ${color}18; color: ${color}; border-color: ${color}35`}
+        >
+          {topic}
+        </span>
+      </div>
+      <h1 class="topic-title">{title}</h1>
+      <p class="topic-description">{description}</p>
+      <div
+        class="topic-rule"
+        style={`background: linear-gradient(90deg, ${color} 0%, transparent 100%)`}
+      >
+      </div>
+    </header>
+
+    <main class="topic-content">
+      <slot />
+    </main>
+
+    <footer class="topic-footer">
+      <a href="/" class="back-link">← Volver al inicio</a>
+    </footer>
+  </div>
+</Layout>
+
+<style is:global>
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .note {
+    background: #1f1c15;
+    border-left: 3px solid #b89860;
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  .note strong {
+    color: #c8a870;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 0.2rem 0.55rem;
+    background: #1f1c15;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    color: var(--text-muted);
+  }
+
+  .placeholder-content {
+    text-align: center;
+    padding: 5rem 2rem;
+    color: var(--text-dim);
+  }
+
+  .placeholder-content .ph-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .placeholder-content h3 {
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .placeholder-content p {
+    color: var(--text-dim);
+    font-size: 0.875rem;
+  }
+</style>
+
+<style>
+  .page-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .topic-header {
+    padding: 3rem 0 2.5rem;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 1.25rem;
+  }
+
+  .breadcrumb a {
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--text);
+  }
+
+  .sep {
+    color: var(--text-dim);
+  }
+
+  .topic-meta {
+    margin-bottom: 0.75rem;
+  }
+
+  .topic-label {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+
+  .topic-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .topic-description {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 58ch;
+    line-height: 1.7;
+  }
+
+  .topic-rule {
+    height: 2px;
+    width: 80px;
+    border-radius: 2px;
+    margin-top: 2rem;
+  }
+
+  .topic-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding-bottom: 5rem;
+  }
+
+  .topic-footer {
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .back-link {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    transition: color 0.15s;
+  }
+
+  .back-link:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 640px) {
+    .topic-title {
+      font-size: 1.85rem;
+    }
+  }
+</style>

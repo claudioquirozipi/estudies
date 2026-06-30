@@ -1,11 +1,362 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const topics = [
+  {
+    slug: 'html',
+    name: 'HTML',
+    abbr: '</>',
+    color: '#e34c26',
+    description: 'Semantica, accesibilidad, formularios y rendimiento en la web moderna.',
+    status: 'disponible',
+  },
+  {
+    slug: 'css',
+    name: 'CSS',
+    abbr: '{ }',
+    color: '#5b9bd5',
+    description: 'Flexbox, Grid, animaciones, variables CSS y arquitectura de estilos.',
+    status: 'proximo',
+  },
+  {
+    slug: 'javascript',
+    name: 'JavaScript',
+    abbr: 'JS',
+    color: '#f0c040',
+    description: 'ES2024, closures, async/await, el event loop y patrones modernos.',
+    status: 'proximo',
+  },
+  {
+    slug: 'typescript',
+    name: 'TypeScript',
+    abbr: 'TS',
+    color: '#4a9eed',
+    description: 'Tipado estatico, generics, utility types, decorators y configuracion.',
+    status: 'proximo',
+  },
+  {
+    slug: 'react',
+    name: 'React',
+    abbr: '⚛',
+    color: '#61dafb',
+    description: 'Hooks, Context, composicion de componentes, patrones y rendimiento.',
+    status: 'proximo',
+  },
+  {
+    slug: 'angular',
+    name: 'Angular',
+    abbr: 'NG',
+    color: '#dd0031',
+    description: 'Signals, componentes standalone, servicios, DI y el nuevo control flow.',
+    status: 'proximo',
+  },
+  {
+    slug: 'nextjs',
+    name: 'Next.js',
+    abbr: '▲',
+    color: '#c0bdb8',
+    description: 'App Router, Server Components, streaming, cache y despliegue en Vercel.',
+    status: 'proximo',
+  },
+  {
+    slug: 'astrojs',
+    name: 'Astro',
+    abbr: '✦',
+    color: '#ff7043',
+    description: 'Islands architecture, content collections, SSR y frameworks integrados.',
+    status: 'proximo',
+  },
+  {
+    slug: 'nestjs',
+    name: 'Nest.js',
+    abbr: '⬡',
+    color: '#e0234e',
+    description: 'Framework de Node.js. Modulos, controladores, servicios y DI.',
+    status: 'proximo',
+  },
+  {
+    slug: 'prisma',
+    name: 'Prisma',
+    abbr: '◈',
+    color: '#7c6af7',
+    description: 'ORM moderno para Node.js. Schema, migraciones, queries y relaciones.',
+    status: 'proximo',
+  },
+  {
+    slug: 'postgresql',
+    name: 'PostgreSQL',
+    abbr: 'PG',
+    color: '#4a90d9',
+    description: 'SQL, indices, joins, transacciones, optimizacion y casos de uso reales.',
+    status: 'proximo',
+  },
+];
 ---
 
 <Layout>
-	<Welcome />
+  <div class="page">
+    <header class="hero">
+      <p class="hero-label">Cuaderno de Estudio</p>
+      <h1>Mi Referencia Tecnica</h1>
+      <p class="hero-subtitle">
+        Guia personal de desarrollo web y backend. Cada tema incluye
+        conceptos clave, ejemplos de codigo y buenas practicas.
+      </p>
+    </header>
+
+    <main>
+      <div class="section-header">
+        <h2 class="section-label">Temas</h2>
+        <span class="topic-count">{topics.length} temas</span>
+      </div>
+      <div class="grid">
+        {
+          topics.map((topic) => (
+            <a
+              href={topic.status === 'disponible' ? `/topics/${topic.slug}` : undefined}
+              class:list={['card', { 'card--disabled': topic.status !== 'disponible' }]}
+              style={`--color: ${topic.color}`}
+            >
+              <div class="card-accent" />
+              <div class="card-top">
+                <span class="card-icon">{topic.abbr}</span>
+                {topic.status === 'disponible' ? (
+                  <span class="badge badge--ready">Disponible</span>
+                ) : (
+                  <span class="badge badge--soon">Proximo</span>
+                )}
+              </div>
+              <div class="card-body">
+                <h3 class="card-name">{topic.name}</h3>
+                <p class="card-desc">{topic.description}</p>
+              </div>
+              {topic.status === 'disponible' && (
+                <div class="card-footer">
+                  <span class="card-link">Estudiar →</span>
+                </div>
+              )}
+            </a>
+          ))
+        }
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>Actualizado conforme aprendo. Referencia rapida, no un tutorial paso a paso.</p>
+    </footer>
+  </div>
 </Layout>
+
+<style>
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .hero {
+    padding: 5rem 0 3.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  .hero-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #e8dcc8 0%, #9d8f7a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 50ch;
+    line-height: 1.7;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  .topic-count {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    overflow: hidden;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      transform 0.15s;
+  }
+
+  .card:not(.card--disabled) {
+    cursor: pointer;
+  }
+
+  .card:not(.card--disabled):hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-light);
+    transform: translateY(-2px);
+  }
+
+  .card--disabled {
+    opacity: 0.65;
+  }
+
+  .card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color);
+    opacity: 0.75;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.25rem;
+  }
+
+  .card-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--color) 12%, transparent);
+    color: var(--color);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    border: 1px solid color-mix(in srgb, var(--color) 22%, transparent);
+  }
+
+  .badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 0.18rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .badge--ready {
+    background: #182818;
+    color: #6bcf6b;
+    border: 1px solid #2a4a2a;
+  }
+
+  .badge--soon {
+    background: #1e1c14;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+
+  .card-body {
+    flex: 1;
+  }
+
+  .card-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .card-desc {
+    font-size: 0.845rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .card-footer {
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-link {
+    font-size: 0.835rem;
+    color: var(--color);
+    font-weight: 500;
+    opacity: 0.75;
+    transition: opacity 0.15s;
+  }
+
+  .card:hover .card-link {
+    opacity: 1;
+  }
+
+  .footer {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border);
+    margin-top: 4rem;
+  }
+
+  .footer p {
+    color: var(--text-dim);
+    font-size: 0.835rem;
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    h1 {
+      font-size: 2.25rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      font-size: 1.85rem;
+    }
+  }
+</style>
