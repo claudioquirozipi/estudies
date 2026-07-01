@@ -1,6 +1,6 @@
 ---
 import TopicLayout from '../../layouts/TopicLayout.astro';
-import { Code } from 'astro:components';
+import CodeBlock from '../../components/CodeBlock.astro';
 ---
 
 <TopicLayout
@@ -23,7 +23,7 @@ import { Code } from 'astro:components';
       con "islas" interactivas donde SI se carga JS. Cada isla hidrata de forma independiente.
       El resultado es rendimiento excepcional sin sacrificar interactividad donde se necesita.
     </p>
-    <Code
+    <CodeBlock
       code={`// Next.js / React tradicional:
 // Toda la pagina se envia como JS y se hidrata completa en el cliente.
 // El usuario ve HTML pero no puede interactuar hasta que JS carga (TTI alto).
@@ -44,7 +44,6 @@ import Cart from './Cart.jsx';              // tiene JS — marcado como isla
 <ProductList products={products} />
 <Cart client:load />  <!-- solo este componente envia JS al cliente -->`}
       lang="astro"
-      theme="rose-pine"
     />
   </div>
 
@@ -56,7 +55,7 @@ import Cart from './Cart.jsx';              // tiene JS — marcado como isla
       corre SOLO en el servidor), el <strong>template</strong> (como JSX pero sin re-renders) y
       los <strong>estilos</strong> (scoped por defecto). El frontmatter jamas llega al cliente.
     </p>
-    <Code
+    <CodeBlock
       code={`---
 // FRONTMATTER — corre solo en servidor/build time, nunca en el cliente.
 // Aqui puedes usar Node.js, leer archivos, llamar APIs, conectar a BD, etc.
@@ -116,7 +115,6 @@ const esMayor = usuario.edad >= 18;
   /* <style is:global> */
 </style>`}
       lang="astro"
-      theme="rose-pine"
     />
     <div class="note">
       <strong>Diferencia critica con React:</strong> en el frontmatter puedes hacer
@@ -132,7 +130,7 @@ const esMayor = usuario.edad >= 18;
       Routing basado en archivos. Todo lo que este en <code>src/pages/</code> se convierte
       en una ruta. Soporta rutas estaticas, dinamicas, catch-all y endpoints de API.
     </p>
-    <Code
+    <CodeBlock
       code={`src/pages/
   index.astro              →  /
   about.astro              →  /about
@@ -144,10 +142,9 @@ const esMayor = usuario.edad >= 18;
     users.ts               →  /api/users        (endpoint — no es pagina HTML)
     users/[id].ts          →  /api/users/:id`}
       lang="text"
-      theme="rose-pine"
     />
     <p class="section-desc">Rutas dinamicas: en SSG debes exportar <code>getStaticPaths()</code> para que Astro sepa que paginas generar en build time.</p>
-    <Code
+    <CodeBlock
       code={`---
 // src/pages/blog/[slug].astro
 
@@ -169,10 +166,9 @@ const { slug } = Astro.params;
 
 <h1>{post.data.titulo}</h1>`}
       lang="astro"
-      theme="rose-pine"
     />
     <p class="section-desc">Catch-all con <code>[...path]</code> y endpoints de API:</p>
-    <Code
+    <CodeBlock
       code={`---
 // src/pages/[...path].astro — captura cualquier ruta no matcheada
 const { path } = Astro.params;  // "a/b/c" como string
@@ -194,7 +190,6 @@ export const POST: APIRoute = async ({ request }) => {
   return new Response(JSON.stringify({ ok: true }), { status: 201 });
 };`}
       lang="typescript"
-      theme="rose-pine"
     />
   </div>
 
@@ -205,7 +200,7 @@ export const POST: APIRoute = async ({ request }) => {
       Los layouts son componentes normales que usan <code>&lt;slot /&gt;</code> para renderizar
       contenido hijo. Soportan slots nombrados para inyectar contenido en multiples puntos.
     </p>
-    <Code
+    <CodeBlock
       code={`---
 // src/layouts/Base.astro
 interface Props {
@@ -249,7 +244,6 @@ import Base from '../layouts/Base.astro';
 
 </Base>`}
       lang="astro"
-      theme="rose-pine"
     />
   </div>
 
@@ -261,7 +255,7 @@ import Base from '../layouts/Base.astro';
       debes añadirle una directiva <code>client:*</code>. Sin ella, se renderiza solo como HTML
       estatico (util para componentes sin estado que aun asi quieres usar de React).
     </p>
-    <Code
+    <CodeBlock
       code={`---
 import Contador from './Contador.jsx';       // componente React
 import Grafica from './Grafica.vue';         // componente Vue
@@ -293,7 +287,6 @@ import Dropdown from './Dropdown.svelte';    // componente Svelte
 <Mapa client:only="react" />
 <Chat client:only="svelte" />`}
       lang="astro"
-      theme="rose-pine"
     />
     <div class="note">
       <strong>Regla practica:</strong> usa <code>client:visible</code> por defecto para la
@@ -310,7 +303,7 @@ import Dropdown from './Dropdown.svelte';    // componente Svelte
       (Markdown, MDX, JSON, YAML). Define un schema con Zod y obtienes frontmatter
       <strong>totalmente tipado</strong> y validado en build time.
     </p>
-    <Code
+    <CodeBlock
       code={`// src/content/config.ts — define las colecciones y su schema
 import { defineCollection, z } from 'astro:content';
 
@@ -341,9 +334,8 @@ const proyectos = defineCollection({
 
 export const collections = { blog, proyectos };`}
       lang="typescript"
-      theme="rose-pine"
     />
-    <Code
+    <CodeBlock
       code={`---
 # src/content/blog/mi-primer-post.md
 # El frontmatter es validado contra el schema — error en build si no cumple
@@ -360,9 +352,8 @@ El contenido del post va aqui en Markdown normal.
 
 Puedes usar **negrita**, _cursiva_, \`codigo\` y todo lo de Markdown.`}
       lang="markdown"
-      theme="rose-pine"
     />
-    <Code
+    <CodeBlock
       code={`---
 // src/pages/blog/index.astro — listar todos los posts
 import { getCollection } from 'astro:content';
@@ -411,7 +402,6 @@ const { Content } = await post.render();  // renderiza el Markdown a HTML
 <h1>{post.data.titulo}</h1>
 <Content />  <!-- el Markdown renderizado -->`}
       lang="astro"
-      theme="rose-pine"
     />
   </div>
 
@@ -423,7 +413,7 @@ const { Content } = await post.render();  // renderiza el Markdown a HTML
       <code>server</code> renderiza cada request en el servidor. <code>hybrid</code> mezcla ambos:
       por defecto SSR pero puedes optar a static por pagina.
     </p>
-    <Code
+    <CodeBlock
       code={`// astro.config.mjs
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
@@ -441,9 +431,8 @@ export default defineConfig({
   // adapter: netlify(),
 });`}
       lang="javascript"
-      theme="rose-pine"
     />
-    <Code
+    <CodeBlock
       code={`---
 // Pagina SSR — se ejecuta en cada request
 // Tiene acceso a cookies, headers, query params, etc.
@@ -483,9 +472,8 @@ const page = url.searchParams.get('page') ?? '1';
 const user = Astro.locals.user;
 ---`}
       lang="astro"
-      theme="rose-pine"
     />
-    <Code
+    <CodeBlock
       code={`// src/middleware.ts — se ejecuta antes de cada request
 import { defineMiddleware } from 'astro:middleware';
 
@@ -505,7 +493,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
   return next();  // continuar con el request
 });`}
       lang="typescript"
-      theme="rose-pine"
     />
   </div>
 
@@ -517,7 +504,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       como una abstraccion que funciona en todos los navegadores con fallback graceful.
       Da la sensacion de SPA (animaciones suaves entre paginas) sin el costo de JS de una SPA.
     </p>
-    <Code
+    <CodeBlock
       code={`---
 // En tu Layout principal — activa view transitions en TODA la app
 import { ViewTransitions } from 'astro:transitions';
@@ -531,9 +518,8 @@ import { ViewTransitions } from 'astro:transitions';
   </body>
 </html>`}
       lang="astro"
-      theme="rose-pine"
     />
-    <Code
+    <CodeBlock
       code={`---
 // Animaciones predefinidas
 import { fade, slide, none } from 'astro:transitions';
@@ -557,9 +543,8 @@ import { fade, slide, none } from 'astro:transitions';
 <audio src="/musica.mp3" controls transition:persist />
 <MiComponente client:load transition:persist="mi-componente" />`}
       lang="astro"
-      theme="rose-pine"
     />
-    <Code
+    <CodeBlock
       code={`// Escuchar eventos del ciclo de vida de las transiciones
 document.addEventListener('astro:page-load', () => {
   // Se ejecuta cuando una nueva pagina termina de cargar
@@ -576,7 +561,6 @@ document.addEventListener('astro:after-swap', () => {
   // Despues de que el DOM fue intercambiado
 });`}
       lang="javascript"
-      theme="rose-pine"
     />
   </div>
 
@@ -587,7 +571,7 @@ document.addEventListener('astro:after-swap', () => {
       Astro es framework-agnostico. Puedes usar React, Vue, Svelte, Solid y Preact
       en el mismo proyecto. La instalacion es via <code>astro add</code> que configura todo automaticamente.
     </p>
-    <Code
+    <CodeBlock
       code={`# Agregar frameworks
 npx astro add react
 npx astro add vue
@@ -602,9 +586,8 @@ npx astro add vercel
 npx astro add node
 npx astro add cloudflare`}
       lang="bash"
-      theme="rose-pine"
     />
-    <Code
+    <CodeBlock
       code={`// astro.config.mjs — despues de astro add react
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
@@ -619,9 +602,8 @@ export default defineConfig({
   ],
 });`}
       lang="javascript"
-      theme="rose-pine"
     />
-    <Code
+    <CodeBlock
       code={`---
 // Puedes mezclar componentes de distintos frameworks en la misma pagina
 import BotonReact from './Boton.tsx';
@@ -635,7 +617,6 @@ import AnimacionSvelte from './Animacion.svelte';
 <ModalVue client:visible />
 <AnimacionSvelte client:idle />`}
       lang="astro"
-      theme="rose-pine"
     />
     <div class="note">
       <strong>Tip practico:</strong> si tu proyecto es mayormente contenido (blog, docs, marketing)
@@ -652,7 +633,7 @@ import AnimacionSvelte from './Animacion.svelte';
       <code>Astro</code> es el objeto global disponible en todo frontmatter. Concentra todo
       lo que necesitas: props, request, cookies, redirect, locals, etc.
     </p>
-    <Code
+    <CodeBlock
       code={`---
 // Todo lo que expone el objeto Astro en un componente/pagina
 
@@ -673,7 +654,6 @@ Astro.slots.has('footer')    // true si el padre paso contenido al slot 'footer'
 await Astro.slots.render('footer')  // renderiza el slot como string
 ---`}
       lang="astro"
-      theme="rose-pine"
     />
   </div>
 

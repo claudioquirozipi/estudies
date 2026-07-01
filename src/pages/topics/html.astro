@@ -1,6 +1,6 @@
 ---
 import TopicLayout from '../../layouts/TopicLayout.astro';
-import { Code } from 'astro:components';
+import CodeBlock from '../../components/CodeBlock.astro';
 ---
 
 <TopicLayout
@@ -16,7 +16,7 @@ import { Code } from 'astro:components';
       El <code>lang</code> en <code>&lt;html&gt;</code> es critico para lectores de pantalla y SEO.
       <code>charset</code> siempre UTF-8. El <code>viewport</code> es obligatorio para sitios responsive.
     </p>
-    <Code
+    <CodeBlock
       code={`<!DOCTYPE html>
 <html lang="es">
   <head>
@@ -31,7 +31,6 @@ import { Code } from 'astro:components';
   </body>
 </html>`}
       lang="html"
-      theme="rose-pine"
     />
   </div>
 
@@ -42,7 +41,7 @@ import { Code } from 'astro:components';
       HTML5 introduce elementos con significado inherente. Usarlos correctamente mejora accesibilidad,
       SEO y mantenibilidad. Nunca uses <code>&lt;div&gt;</code> donde existe un elemento semantico apropiado.
     </p>
-    <Code
+    <CodeBlock
       code={`<body>
   <header>          <!-- cabecera del sitio o de una seccion -->
     <nav>           <!-- navegacion principal -->
@@ -83,7 +82,6 @@ import { Code } from 'astro:components';
   </footer>
 </body>`}
       lang="html"
-      theme="rose-pine"
     />
     <div class="tag-list">
       <span class="tag">&lt;main&gt;</span>
@@ -112,7 +110,7 @@ import { Code } from 'astro:components';
       <code>&lt;label&gt;</code> con su input via <code>for</code>/<code>id</code>.
       <code>autocomplete</code> mejora UX y es requerido en muchos formularios de pago (PCI).
     </p>
-    <Code
+    <CodeBlock
       code={`<form method="POST" action="/api/contact" novalidate>
   <fieldset>
     <legend>Informacion de contacto</legend>
@@ -168,7 +166,6 @@ import { Code } from 'astro:components';
   <button type="reset">Limpiar</button>
 </form>`}
       lang="html"
-      theme="rose-pine"
     />
   </div>
 
@@ -179,7 +176,7 @@ import { Code } from 'astro:components';
       ARIA complementa HTML cuando los elementos nativos no son suficientes.
       Primera regla de ARIA: usa el elemento HTML nativo correcto antes de agregar roles o atributos ARIA.
     </p>
-    <Code
+    <CodeBlock
       code={`<!-- Roles -->
 <div role="alert">Error: campo requerido</div>         <!-- anuncio urgente -->
 <div role="status">Guardado correctamente</div>        <!-- anuncio no urgente -->
@@ -218,7 +215,6 @@ import { Code } from 'astro:components';
 <div tabindex="0">Focusable con Tab</div>              <!-- en tab order -->
 <div tabindex="-1" id="modal">Focusable solo via JS</div>  <!-- no en tab order -->`}
       lang="html"
-      theme="rose-pine"
     />
     <div class="note">
       <strong>Regla principal:</strong> si existe un elemento HTML nativo que hace lo que necesitas
@@ -235,7 +231,7 @@ import { Code } from 'astro:components';
       Open Graph es el estandar para previsualizaciones en redes sociales.
       Twitter Cards son especificas de X (Twitter).
     </p>
-    <Code
+    <CodeBlock
       code={`<head>
   <!-- SEO basico -->
   <meta name="description" content="Descripcion de 150-160 caracteres." />
@@ -270,7 +266,6 @@ import { Code } from 'astro:components';
   <link rel="dns-prefetch" href="https://analytics.example.com" />
 </head>`}
       lang="html"
-      theme="rose-pine"
     />
   </div>
 
@@ -281,7 +276,7 @@ import { Code } from 'astro:components';
       HTML ofrece atributos nativos para controlar cuando y como se cargan los recursos.
       Impactan directamente en Core Web Vitals (LCP, CLS, INP).
     </p>
-    <Code
+    <CodeBlock
       code={`<!-- IMAGENES -->
 
 <!-- lazy: no carga hasta que el usuario se acerca — no usar en above-the-fold -->
@@ -337,7 +332,6 @@ import { Code } from 'astro:components';
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />`}
       lang="html"
-      theme="rose-pine"
     />
     <div class="note">
       <strong>Tip LCP:</strong> la imagen above-the-fold mas grande (Largest Contentful Paint) debe
@@ -354,7 +348,7 @@ import { Code } from 'astro:components';
       HTML tiene elementos interactivos que antes requerían JavaScript. Conocerlos evita
       reinventar la rueda y garantiza accesibilidad desde el inicio.
     </p>
-    <Code
+    <CodeBlock
       code={`<!-- dialog: modal nativo con accesibilidad incluida -->
 <dialog id="mi-modal">
   <h2>Titulo del modal</h2>
@@ -395,7 +389,6 @@ import { Code } from 'astro:components';
   Texto editable por el usuario
 </div>`}
       lang="html"
-      theme="rose-pine"
     />
   </div>
 
@@ -407,7 +400,7 @@ import { Code } from 'astro:components';
       el HTML, accesibles desde JavaScript via <code>dataset</code>. Utiles para conectar
       HTML con comportamiento JS sin clases o IDs artificiales.
     </p>
-    <Code
+    <CodeBlock
       code={`<!-- HTML -->
 <button
   data-action="toggle"
@@ -446,7 +439,6 @@ delete btn.dataset.active;
 // querySelector con data attributes
 const carousels = document.querySelectorAll('[data-component="carousel"]');`}
       lang="javascript"
-      theme="rose-pine"
     />
     <div class="note">
       <strong>Nota:</strong> los data attributes son para datos de UI/comportamiento, no para datos

@@ -1,0 +1,34 @@
+---
+import { Code } from 'astro:components';
+import type { BundledLanguage, BundledTheme } from 'shiki';
+
+interface Props {
+  code: string;
+  lang?: BundledLanguage;
+  theme?: BundledTheme;
+}
+
+const { code, lang = 'text', theme = 'rose-pine' } = Astro.props;
+---
+
+<div class="code-wrapper">
+  <Code {code} {lang} {theme} />
+</div>
+
+<style>
+  .code-wrapper {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(100, 180, 200, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .code-wrapper :global(pre) {
+    padding: 1.35rem 1.6rem !important;
+    background: rgba(24, 63, 78, 1) !important;
+    backdrop-filter: blur(12px);
+    border-radius: 0 !important;
+    border: none !important;
+    margin: 0;
+  }
+</style>
