@@ -41,9 +41,10 @@ const {
   }
 
   :root {
-    --bg: #0a0908;
-    --bg-card: #100e0c;
-    --bg-card-hover: #161310;
+    --bg: linear-gradient(180deg, #76C8E0 0%, #AED8E6 50%, #2A8CCB 100%);
+    /* --bg-card: linear-gradient(135deg, #58A4DE 0%,#8B9DB2 70%, #183F4E 100%); */
+    --bg-card: linear-gradient(135deg, #D7DFE1 0%,#D7DFE1 50%, #BAE0E9 100%);
+    --bg-card-hover: linear-gradient(135deg, #D7DFE1 0%,#D7DFE1 75%, #BAE0E9 100%);
     --text: #a89070;
     --text-muted: #5e5040;
     --text-dim: #322a22;
@@ -54,7 +55,7 @@ const {
   }
 
   html {
-    background-color: var(--bg);
+    background: var(--bg);
     color: var(--text);
     font-family: var(--font-sans);
     font-size: 16px;
