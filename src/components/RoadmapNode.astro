@@ -1,0 +1,94 @@
+---
+interface RoadmapNodeData {
+  title: string;
+  href?: string;
+  children?: RoadmapNodeData[];
+}
+
+interface Props {
+  node: RoadmapNodeData;
+}
+
+const { node } = Astro.props;
+const hasChildren = Boolean(node.children?.length);
+---
+
+{
+  hasChildren ? (
+    <details class="node node--branch" open>
+      <summary class="node-label">{node.title}</summary>
+      <div class="node-children">
+        {node.children!.map((child) => (
+          <Astro.self node={child} />
+        ))}
+      </div>
+    </details>
+  ) : node.href ? (
+    <a href={node.href} class="node node--leaf node--active">
+      {node.title}
+    </a>
+  ) : (
+    <span class="node node--leaf node--pending">{node.title}</span>
+  )
+}
+
+<style>
+  .node-label {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+    padding: 0.5rem 0;
+    list-style: none;
+  }
+
+  .node-label::-webkit-details-marker {
+    display: none;
+  }
+
+  .node-label::before {
+    content: '▸';
+    display: inline-block;
+    width: 1em;
+    margin-right: 0.4rem;
+    color: var(--text-dim);
+    transition: transform 0.15s;
+  }
+
+  details[open] > .node-label::before {
+    transform: rotate(90deg);
+  }
+
+  .node-children {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding-left: 1.4rem;
+    border-left: 1px solid var(--border);
+    margin-left: 0.35rem;
+  }
+
+  .node--leaf {
+    display: block;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+  }
+
+  .node--active {
+    color: var(--text-muted);
+    transition:
+      background 0.15s,
+      color 0.15s;
+  }
+
+  .node--active:hover {
+    background: rgba(14, 43, 67, 0.08);
+    color: var(--text);
+  }
+
+  .node--pending {
+    color: var(--text-dim);
+    cursor: default;
+  }
+</style>
