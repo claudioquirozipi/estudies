@@ -6,18 +6,24 @@ interface Props {
   description: string;
   color: string;
   topic: string;
+  topicHref: string;
+  category: string;
 }
 
-const { title, description, color, topic } = Astro.props;
+const { title, description, color, topic, topicHref, category } = Astro.props;
 ---
 
 <Layout title={`${title} — Mi Cuaderno`} description={description}>
   <div class="page-wrapper">
-    <header class="topic-header">
+    <header class="concept-header">
       <nav class="breadcrumb">
-        <a href="/">← Inicio</a>
+        <a href="/">Inicio</a>
         <span class="sep">/</span>
-        <span>{title}</span>
+        <a href={topicHref}>{topic}</a>
+        <span class="sep">/</span>
+        <span>{category}</span>
+        <span class="sep">/</span>
+        <span class="current">{title}</span>
       </nav>
       <div class="topic-meta">
         <span
@@ -26,22 +32,23 @@ const { title, description, color, topic } = Astro.props;
         >
           {topic}
         </span>
+        <span class="category-label">{category}</span>
       </div>
-      <h1 class="topic-title">{title}</h1>
-      <p class="topic-description">{description}</p>
+      <h1 class="concept-title">{title}</h1>
+      <p class="concept-description">{description}</p>
       <div
-        class="topic-rule"
+        class="concept-rule"
         style={`background: linear-gradient(90deg, ${color} 0%, transparent 100%)`}
       >
       </div>
     </header>
 
-    <main class="topic-content">
+    <main class="concept-content">
       <slot />
     </main>
 
-    <footer class="topic-footer">
-      <a href="/" class="back-link">← Volver al inicio</a>
+    <footer class="concept-footer">
+      <a href={topicHref} class="back-link">← Volver al roadmap de {topic}</a>
     </footer>
   </div>
 </Layout>
@@ -53,13 +60,14 @@ const { title, description, color, topic } = Astro.props;
     padding: 0 1.5rem;
   }
 
-  .topic-header {
+  .concept-header {
     padding: 3rem 0 2.5rem;
   }
 
   .breadcrumb {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.4rem;
     font-size: 0.85rem;
     color: var(--text-dim);
@@ -75,11 +83,18 @@ const { title, description, color, topic } = Astro.props;
     color: var(--text);
   }
 
+  .breadcrumb .current {
+    color: var(--text-muted);
+  }
+
   .sep {
     color: var(--text-dim);
   }
 
   .topic-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     margin-bottom: 0.75rem;
   }
 
@@ -94,35 +109,40 @@ const { title, description, color, topic } = Astro.props;
     border: 1px solid;
   }
 
-  .topic-title {
-    font-size: 2.5rem;
+  .category-label {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+  }
+
+  .concept-title {
+    font-size: 2.25rem;
     font-weight: 700;
     color: var(--color-title);
     margin-bottom: 0.75rem;
   }
 
-  .topic-description {
+  .concept-description {
     color: var(--text-muted);
     font-size: 1.05rem;
     max-width: 58ch;
     line-height: 1.7;
   }
 
-  .topic-rule {
+  .concept-rule {
     height: 2px;
     width: 80px;
     border-radius: 2px;
     margin-top: 2rem;
   }
 
-  .topic-content {
+  .concept-content {
     display: flex;
     flex-direction: column;
     gap: 3rem;
     padding-bottom: 5rem;
   }
 
-  .topic-footer {
+  .concept-footer {
     padding: 2rem 0;
     border-top: 1px solid var(--border);
   }
@@ -138,8 +158,8 @@ const { title, description, color, topic } = Astro.props;
   }
 
   @media (max-width: 640px) {
-    .topic-title {
-      font-size: 1.85rem;
+    .concept-title {
+      font-size: 1.75rem;
     }
   }
 </style>

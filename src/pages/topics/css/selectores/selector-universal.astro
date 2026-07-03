@@ -1,0 +1,72 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+---
+
+<ConceptLayout
+  title="Selector universal"
+  description="Aplica un estilo a absolutamente todos los elementos del documento (o de un contenedor, si se combina con otro selector)."
+  color="#5b9bd5"
+  topic="CSS"
+  topicHref="/topics/css"
+  category="Selectores"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué es?</h2>
+    <p class="section-desc">
+      El selector universal se escribe con un asterisco (<code>*</code>) y selecciona
+      <strong>todos los elementos</strong> del HTML, sin importar la etiqueta, clase o id
+      que tengan. Es el selector más amplio que existe en CSS.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Ejemplo</h2>
+    <CodeBlock
+      lang="css"
+      code={`* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}`}
+    />
+    <p class="section-desc">
+      Este es justamente el uso más común: un "reset" básico que quita el margen y
+      padding por defecto que el navegador le pone a cada elemento, y fuerza
+      <code>box-sizing: border-box</code> en todos lados para que los tamaños sean más
+      predecibles.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Combinado con otro selector</h2>
+    <p class="section-desc">
+      También se puede usar dentro de un contenedor específico, para aplicar el estilo
+      solo a sus descendientes:
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`.card * {
+  box-sizing: border-box;
+}`}
+    />
+    <p class="section-desc">
+      Acá <code>.card *</code> selecciona todos los elementos que estén dentro de
+      cualquier elemento con clase <code>.card</code>, sin afectar al resto de la
+      página.
+    </p>
+  </section>
+
+  <div class="note">
+    <strong>A tener en cuenta:</strong> como afecta a todos los elementos del documento,
+    es el selector con menor especificidad de todo CSS (especificidad 0). Cualquier otro
+    selector lo va a pisar. Además, usarlo en exceso (por ejemplo con selectores
+    descendientes anidados) puede tener un costo de rendimiento en páginas muy grandes.
+  </div>
+
+  <div class="tag-list">
+    <span class="tag">especificidad: 0</span>
+    <span class="tag">selector base</span>
+    <span class="tag">reset css</span>
+  </div>
+</ConceptLayout>
