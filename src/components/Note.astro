@@ -1,0 +1,29 @@
+---
+interface Props {
+  label?: string;
+}
+
+const { label = 'A tener en cuenta:' } = Astro.props;
+---
+
+<div class="note">
+  {label && <strong>{label}</strong>}
+  <slot />
+</div>
+
+<style>
+  .note {
+    background: var(--bg-note);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: var(--text-note);
+    line-height: 1.65;
+  }
+
+  .note strong {
+    display: block;
+    color: var(--text-note);
+    margin-bottom: 0.3rem;
+  }
+</style>

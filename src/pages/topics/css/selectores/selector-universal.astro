@@ -1,6 +1,7 @@
 ---
 import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
 import CodeBlock from '../../../../components/CodeBlock.astro';
+import Note from '../../../../components/Note.astro';
 ---
 
 <ConceptLayout
@@ -57,12 +58,12 @@ import CodeBlock from '../../../../components/CodeBlock.astro';
     </p>
   </section>
 
-  <div class="note">
-    <strong>A tener en cuenta:</strong> como afecta a todos los elementos del documento,
-    es el selector con menor especificidad de todo CSS (especificidad 0). Cualquier otro
-    selector lo va a pisar. Además, usarlo en exceso (por ejemplo con selectores
-    descendientes anidados) puede tener un costo de rendimiento en páginas muy grandes.
-  </div>
+  <Note>
+    Como afecta a todos los elementos del documento, es el selector con menor
+    especificidad de todo CSS (especificidad 0). Cualquier otro selector lo va a pisar.
+    Además, usarlo en exceso (por ejemplo con selectores descendientes anidados) puede
+    tener un costo de rendimiento en páginas muy grandes.
+  </Note>
 
   <div class="tag-list">
     <span class="tag">especificidad: 0</span>
