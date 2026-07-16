@@ -28,6 +28,9 @@ const {
   </head>
   <body>
     <slot />
+    <footer class="site-footer">
+      <p>Desarrollado por <a href="https://cquirozipi.vercel.app/" target="_blank" rel="noopener noreferrer">Claudio Quiroz</a></p>
+    </footer>
   </body>
 </html>
 
@@ -167,5 +170,27 @@ const {
   .placeholder-content p {
     color: var(--text-dim);
     font-size: 0.875rem;
+  }
+
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .site-footer p {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+  }
+
+  .site-footer a {
+    color: var(--text-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s;
+  }
+
+  .site-footer a:hover {
+    color: var(--text);
   }
 </style>
