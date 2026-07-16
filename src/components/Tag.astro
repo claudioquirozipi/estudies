@@ -1,12 +1,7 @@
 ---
-interface Props {
-  color?: string;
-}
-
-const { color = '#5b9bd5' } = Astro.props;
 ---
 
-<span class="tag" style={`background: ${color}2e; color: ${color}; border-color: ${color}60`}>
+<span class="tag">
   <slot />
 </span>
 
@@ -15,9 +10,10 @@ const { color = '#5b9bd5' } = Astro.props;
     display: inline-block;
     font-family: var(--font-mono);
     font-size: 0.78rem;
-    font-weight: 500;
-    padding: 0.2rem 0.55rem;
+    font-weight: 600;
+    padding: 0.22rem 0.6rem;
     border-radius: 4px;
-    border: 1px solid;
+    background: var(--color-title);
+    color: #fff;
   }
 </style>
