@@ -1,0 +1,86 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
+import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#dd8500';
+---
+
+<ConceptLayout
+  title="Estructura de carpetas"
+  description="Cómo está organizado el sistema de archivos en Linux: un único árbol que arranca en la raíz (/), sin letras de unidad como en Windows."
+  color={color}
+  topic="Linux"
+  topicHref="/topics/linux"
+  category="Fundamentos"
+>
+  <section class="section">
+    <h2 class="section-title">Un solo árbol, sin unidades</h2>
+    <p class="section-desc">
+      En Windows cada disco tiene su propia letra (<CodeInline>C:\</CodeInline>, <CodeInline>D:\</CodeInline>). En Linux no existe eso: hay un único árbol de directorios que empieza en la raíz, representada con una sola barra (<CodeInline>/</CodeInline>). Un disco externo, un pendrive o una partición nueva no aparecen como una unidad separada, sino que se "montan" dentro de alguna carpeta de ese mismo árbol (normalmente bajo <CodeInline>/mnt</CodeInline> o <CodeInline>/media</CodeInline>).
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Las carpetas principales</h2>
+    <CodeBlock
+      lang="bash"
+      code={`/
+├── bin, sbin   -> comandos esenciales (hoy suelen ser enlaces a /usr/bin, /usr/sbin)
+├── boot        -> archivos de arranque (kernel, GRUB)
+├── dev         -> archivos que representan dispositivos (discos, terminales, etc.)
+├── etc         -> archivos de configuración del sistema
+├── home        -> carpeta personal de cada usuario (ej: /home/claudio)
+├── lib         -> librerías compartidas que usan los binarios de /bin y /sbin
+├── media, mnt  -> puntos de montaje para discos externos, USB, etc.
+├── opt         -> software de terceros instalado manualmente
+├── proc, sys   -> sistemas de archivos virtuales con info del kernel y procesos
+├── root        -> carpeta personal del usuario root (no confundir con /)
+├── tmp         -> archivos temporales, se borra en cada reinicio
+├── usr         -> la mayoría de los programas y librerías del sistema
+└── var         -> datos que cambian con el tiempo: logs, cachés, colas`}
+    />
+    <p class="section-desc">
+      No hace falta memorizarlas todas de una — con <CodeInline>/home</CodeInline>, <CodeInline>/etc</CodeInline>, <CodeInline>/var</CodeInline>, <CodeInline>/tmp</CodeInline> y <CodeInline>/usr</CodeInline> ya cubrís el 90% del uso diario.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Las que más vas a usar</h2>
+    <p class="section-desc">
+      <CodeInline>/home/tu-usuario</CodeInline> es tu carpeta personal: ahí van tus documentos, descargas y configuraciones de usuario (equivalente a <CodeInline>C:\Users\tu-usuario</CodeInline> en Windows). <CodeInline>/etc</CodeInline> guarda la configuración de todo el sistema en archivos de texto plano — por ejemplo, la lista de usuarios está en <CodeInline>/etc/passwd</CodeInline>. <CodeInline>/var/log</CodeInline> es el lugar donde los programas y el sistema van dejando sus registros (logs), muy útil para diagnosticar errores. <CodeInline>/tmp</CodeInline> es de usar y tirar: cualquier proceso puede escribir ahí, y el sistema lo limpia con cada reinicio.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Rutas absolutas y relativas</h2>
+    <p class="section-desc">
+      Una ruta que empieza con <CodeInline>/</CodeInline> es absoluta: siempre parte desde la raíz, sin importar en qué carpeta estés parado. Una ruta que no empieza con <CodeInline>/</CodeInline> es relativa: se interpreta a partir de la carpeta actual.
+    </p>
+    <CodeBlock
+      lang="bash"
+      code={`# absoluta: siempre apunta al mismo lugar, la escribas desde donde la escribas
+/home/claudio/proyectos/studies
+
+# relativa: depende de en qué carpeta estés parado cuando la ejecutás
+proyectos/studies
+
+# atajos útiles en cualquier ruta
+.    # la carpeta actual
+..   # la carpeta de arriba (el padre)
+~    # tu carpeta personal (/home/tu-usuario)`}
+    />
+  </section>
+
+  <Note>
+    En Linux (a diferencia de Windows) los nombres de archivos y carpetas distinguen mayúsculas de minúsculas: <CodeInline>Documentos</CodeInline> y <CodeInline>documentos</CodeInline> son dos carpetas distintas.
+  </Note>
+
+  <div class="tag-list">
+    <Tag color={color}>filesystem hierarchy</Tag>
+    <Tag color={color}>rutas absolutas y relativas</Tag>
+    <Tag color={color}>FHS</Tag>
+  </div>
+</ConceptLayout>

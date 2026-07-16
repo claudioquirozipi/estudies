@@ -1,0 +1,204 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
+import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#dd8500';
+---
+
+<ConceptLayout
+  title="Comandos básicos de Bash"
+  description="Los comandos de terminal que más se usan en el día a día: moverse por carpetas, crear y borrar archivos, buscar contenido y combinar comandos entre sí."
+  color={color}
+  topic="Linux"
+  topicHref="/topics/linux"
+  category="Fundamentos"
+>
+  <section class="section">
+    <h2 class="section-title">Moverse por el sistema</h2>
+    <p class="section-desc">
+      <CodeInline>pwd</CodeInline> (<em>print working directory</em>) muestra en qué carpeta estás parado. <CodeInline>ls</CodeInline> (<em>list</em>) lista el contenido de una carpeta. <CodeInline>cd</CodeInline> (<em>change directory</em>) te mueve a otra carpeta.
+    </p>
+    <CodeBlock
+      lang="bash"
+      code={`pwd
+# /home/claudio/proyectos/studies
+
+ls
+# Muestra los archivos y carpetas del directorio actual
+
+ls -l
+# Formato "largo": permisos, dueño, tamaño y fecha de cada archivo
+
+ls -la
+# Igual que -l, pero incluye los archivos ocultos (los que empiezan con .)
+
+ls -lh
+# Como -l, pero con tamaños legibles (KB, MB, GB) en vez de bytes
+
+cd carpeta        # entra a "carpeta" (ruta relativa)
+cd /home/claudio  # entra usando una ruta absoluta
+cd ..              # sube un nivel, a la carpeta padre
+cd ~                # va directo a tu carpeta personal
+cd -                # vuelve a la última carpeta en la que estabas`}
+    />
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Crear, copiar, mover y borrar</h2>
+    <p class="section-desc">
+      Estos son los comandos para manipular archivos y carpetas. El más peligroso de todos es <CodeInline>rm</CodeInline>: en Linux no hay papelera de reciclaje por defecto, así que lo que borrás con <CodeInline>rm</CodeInline> desaparece.
+    </p>
+    <CodeBlock
+      lang="bash"
+      code={`mkdir nueva-carpeta
+# Crea una carpeta
+
+mkdir -p ruta/con/varios/niveles
+# Crea todas las carpetas intermedias que hagan falta, sin quejarse si ya existen
+
+touch archivo.txt
+# Crea un archivo vacío (o actualiza su fecha de modificación si ya existe)
+
+cp origen.txt destino.txt
+# Copia un archivo
+
+cp -r carpeta-origen carpeta-destino
+# Copia una carpeta completa (con -r, "recursivo")
+
+mv archivo.txt otra-carpeta/
+# Mueve un archivo (mv también sirve para renombrar)
+
+mv nombre-viejo.txt nombre-nuevo.txt
+# "Mover" un archivo al mismo lugar con otro nombre = renombrarlo
+
+rm archivo.txt
+# Borra un archivo (sin confirmación, sin papelera)
+
+rm -r carpeta
+# Borra una carpeta y todo su contenido
+
+rm -rf carpeta
+# Como -r, pero sin preguntar nada ni frenarse ante errores: usar con mucho cuidado`}
+    />
+    <Note label="Cuidado con rm -rf:">
+      No hay "deshacer". Antes de correr <CodeInline>rm -rf</CodeInline> conviene correr el mismo comando cambiando <CodeInline>rm</CodeInline> por <CodeInline>ls</CodeInline> primero, para confirmar exactamente qué se va a borrar.
+    </Note>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Ver contenido de archivos</h2>
+    <CodeBlock
+      lang="bash"
+      code={`cat archivo.txt
+# Vuelca todo el contenido del archivo a la pantalla, de una
+
+less archivo.txt
+# Abre el archivo en un visor paginado (subís y bajás con las flechas, salís con "q")
+
+head archivo.txt
+# Muestra las primeras 10 líneas
+
+head -n 20 archivo.txt
+# Muestra las primeras 20 líneas
+
+tail archivo.txt
+# Muestra las últimas 10 líneas
+
+tail -f archivo.log
+# Muestra las últimas líneas y se queda "siguiendo" el archivo en vivo (ideal para logs)`}
+    />
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Buscar archivos y texto</h2>
+    <p class="section-desc">
+      <CodeInline>find</CodeInline> busca <strong>archivos</strong> por nombre, tipo o fecha. <CodeInline>grep</CodeInline> busca <strong>texto dentro</strong> de archivos.
+    </p>
+    <CodeBlock
+      lang="bash"
+      code={`find . -name "*.astro"
+# Busca, desde la carpeta actual (.), todos los archivos que terminen en .astro
+
+find . -type d -name "topics"
+# Busca carpetas (-type d) llamadas "topics"
+
+grep "SOLID" archivo.txt
+# Busca la palabra "SOLID" dentro de un archivo y muestra las líneas donde aparece
+
+grep -r "SOLID" src/
+# Busca "SOLID" en todos los archivos dentro de la carpeta src/, de forma recursiva
+
+grep -rn "SOLID" src/
+# Igual, pero mostrando el número de línea (-n) de cada coincidencia`}
+    />
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Combinar comandos: pipes y redirección</h2>
+    <p class="section-desc">
+      La barra vertical <CodeInline>|</CodeInline> (pipe) conecta la salida de un comando con la entrada del siguiente. Los símbolos <CodeInline>&gt;</CodeInline> y <CodeInline>&gt;&gt;</CodeInline> redirigen la salida de un comando hacia un archivo en vez de mostrarla en pantalla.
+    </p>
+    <CodeBlock
+      lang="bash"
+      code={`ls -la | grep ".astro"
+# Lista todo y le pasa el resultado a grep, que se queda solo con lo que contenga ".astro"
+
+cat archivo.txt | wc -l
+# wc -l cuenta líneas: esto cuenta cuántas líneas tiene el archivo
+
+echo "hola" > salida.txt
+# Escribe "hola" en salida.txt, PISANDO el contenido anterior
+
+echo "chau" >> salida.txt
+# Agrega "chau" al final de salida.txt, sin borrar lo que ya había`}
+    />
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Permisos y sudo</h2>
+    <p class="section-desc">
+      Cada archivo tiene permisos de lectura, escritura y ejecución para tres grupos: el dueño, el grupo, y el resto. <CodeInline>chmod</CodeInline> los cambia. <CodeInline>sudo</CodeInline> ejecuta un comando con permisos de administrador (equivalente a "Ejecutar como administrador" en Windows).
+    </p>
+    <CodeBlock
+      lang="bash"
+      code={`ls -l archivo.sh
+# -rwxr-xr-- 1 claudio claudio 220 jul 15 10:00 archivo.sh
+#  \\__/\\_/\\_/
+#   |   |  |
+#   |   |  resto del mundo: puede leer (r), no escribir, no ejecutar
+#   |   grupo: puede leer y ejecutar
+#   dueño: puede leer, escribir y ejecutar
+
+chmod +x archivo.sh
+# Agrega permiso de ejecución para poder correrlo como ./archivo.sh
+
+sudo apt update
+# Corre "apt update" con permisos de administrador (te va a pedir tu contraseña)`}
+    />
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Pedir ayuda sin salir de la terminal</h2>
+    <CodeBlock
+      lang="bash"
+      code={`man ls
+# Abre el manual completo del comando ls
+
+ls --help
+# Muestra un resumen rápido de las opciones disponibles`}
+    />
+  </section>
+
+  <Note>
+    No hace falta memorizar todas las opciones de cada comando. En la práctica se aprenden con el uso, buscando <CodeInline>comando --help</CodeInline> cuando hace falta algo puntual.
+  </Note>
+
+  <div class="tag-list">
+    <Tag color={color}>terminal</Tag>
+    <Tag color={color}>bash</Tag>
+    <Tag color={color}>línea de comandos</Tag>
+  </div>
+</ConceptLayout>
