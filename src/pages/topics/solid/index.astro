@@ -1,0 +1,80 @@
+---
+import TopicLayout from '../../../layouts/TopicLayout.astro';
+import RoadmapNode from '../../../components/RoadmapNode.astro';
+
+const color = '#10b981';
+
+const roadmap = [
+  {
+    title: 'Principios',
+    children: [
+      { title: 'S — Responsabilidad única (SRP)', href: '/topics/solid/principios/srp' },
+      { title: 'O — Abierto/cerrado (OCP)', href: '/topics/solid/principios/ocp' },
+      { title: 'L — Sustitución de Liskov (LSP)', href: '/topics/solid/principios/lsp' },
+      { title: 'I — Segregación de interfaces (ISP)', href: '/topics/solid/principios/isp' },
+      { title: 'D — Inversión de dependencias (DIP)', href: '/topics/solid/principios/dip' },
+    ],
+  },
+];
+---
+
+<TopicLayout
+  title="SOLID"
+  description="Cinco principios de diseño orientado a objetos para escribir código mantenible, extensible y desacoplado, con ejemplos en TypeScript."
+  color={color}
+  topic="SOLID"
+>
+  <div class="roadmap">
+    {
+      roadmap.map((category) => (
+        <div class="roadmap-card" style={`--color: ${color}`}>
+          <div class="roadmap-card-accent" />
+          <h3 class="roadmap-card-title">{category.title}</h3>
+          <div class="roadmap-card-body">
+            {category.children?.map((child) => <RoadmapNode node={child} />)}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</TopicLayout>
+
+<style>
+  .roadmap {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .roadmap-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem 1.4rem;
+    overflow: hidden;
+  }
+
+  .roadmap-card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color);
+    opacity: 0.75;
+  }
+
+  .roadmap-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .roadmap-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+</style>

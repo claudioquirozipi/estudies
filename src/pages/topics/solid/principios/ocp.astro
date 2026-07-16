@@ -1,0 +1,113 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import Note from '../../../../components/Note.astro';
+---
+
+<ConceptLayout
+  title="Abierto/cerrado (OCP)"
+  description="Las entidades de software deben estar abiertas a extensión, pero cerradas a modificación."
+  color="#10b981"
+  topic="SOLID"
+  topicHref="/topics/solid"
+  category="Principios"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué es?</h2>
+    <p class="section-desc">
+      El <strong>Open/Closed Principle</strong> dice que debería poder agregar
+      comportamiento nuevo a un sistema <strong>sin modificar código que ya
+      funciona</strong>. En la práctica, esto se logra apoyándose en abstracciones
+      (interfaces, polimorfismo) en vez de en condicionales que revisan tipos
+      concretos.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Antes: hay que editar la clase por cada caso nuevo</h2>
+    <CodeBlock
+      lang="typescript"
+      code={`type ShapeType = 'circle' | 'square';
+
+interface Shape {
+  type: ShapeType;
+  radius?: number;
+  side?: number;
+}
+
+class AreaCalculator {
+  calculate(shape: Shape): number {
+    if (shape.type === 'circle') {
+      return Math.PI * shape.radius! ** 2;
+    } else if (shape.type === 'square') {
+      return shape.side! ** 2;
+    }
+    // Cada figura nueva obliga a tocar este método
+    throw new Error('Figura no soportada');
+  }
+}`}
+    />
+    <p class="section-desc">
+      Cada vez que aparece una figura nueva (triángulo, rectángulo...) hay que volver a
+      abrir <code>AreaCalculator</code> y agregar otro <code>else if</code>, con el
+      riesgo de romper los casos que ya funcionaban.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Después: extensión mediante polimorfismo</h2>
+    <CodeBlock
+      lang="typescript"
+      code={`interface Shape {
+  area(): number;
+}
+
+class Circle implements Shape {
+  constructor(private radius: number) {}
+
+  area(): number {
+    return Math.PI * this.radius ** 2;
+  }
+}
+
+class Square implements Shape {
+  constructor(private side: number) {}
+
+  area(): number {
+    return this.side ** 2;
+  }
+}
+
+// Figura nueva: se agrega una clase, no se toca ninguna existente
+class Triangle implements Shape {
+  constructor(private base: number, private height: number) {}
+
+  area(): number {
+    return (this.base * this.height) / 2;
+  }
+}
+
+class AreaCalculator {
+  calculateTotal(shapes: Shape[]): number {
+    return shapes.reduce((total, shape) => total + shape.area(), 0);
+  }
+}`}
+    />
+    <p class="section-desc">
+      <code>AreaCalculator</code> ya no conoce los tipos concretos: solo depende de la
+      abstracción <code>Shape</code>. Agregar <code>Triangle</code> no requiere tocar
+      ni una línea de las clases existentes.
+    </p>
+  </section>
+
+  <Note>
+    OCP no prohíbe modificar código nunca; prohíbe que agregar un caso nuevo obligue a
+    reabrir y arriesgar código que ya está probado y funcionando en producción.
+  </Note>
+
+  <div class="tag-list">
+    <span class="tag">polimorfismo</span>
+    <span class="tag">abstracción</span>
+    <span class="tag">OCP</span>
+  </div>
+</ConceptLayout>

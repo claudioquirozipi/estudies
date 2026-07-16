@@ -1,0 +1,111 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import Note from '../../../../components/Note.astro';
+---
+
+<ConceptLayout
+  title="Responsabilidad única (SRP)"
+  description="Una clase o módulo debe tener una, y solo una, razón para cambiar."
+  color="#10b981"
+  topic="SOLID"
+  topicHref="/topics/solid"
+  category="Principios"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué es?</h2>
+    <p class="section-desc">
+      El <strong>Single Responsibility Principle</strong> dice que cada clase debe
+      encargarse de una sola cosa. Si una clase mezcla varias responsabilidades
+      (por ejemplo, lógica de negocio, persistencia y formato de salida), un cambio en
+      cualquiera de esas áreas obliga a tocar la misma clase, aumentando el riesgo de
+      romper algo que no tenía nada que ver.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Antes: varias responsabilidades mezcladas</h2>
+    <CodeBlock
+      lang="typescript"
+      code={`class Invoice {
+  constructor(
+    private items: { name: string; price: number }[],
+  ) {}
+
+  getTotal(): number {
+    return this.items.reduce((sum, item) => sum + item.price, 0);
+  }
+
+  // Responsabilidad extra: formatear la factura
+  printAsText(): string {
+    return this.items.map((i) => \`\${i.name}: \${i.price}\`).join('\\n');
+  }
+
+  // Responsabilidad extra: persistencia
+  saveToDatabase(): void {
+    console.log('Guardando factura en la base de datos...');
+  }
+}`}
+    />
+    <p class="section-desc">
+      Esta clase cambia si cambia el cálculo del total, si cambia el formato de
+      impresión o si cambia la forma de guardar datos. Tres razones distintas para
+      modificarla, tres focos de bugs cruzados.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Después: una responsabilidad por clase</h2>
+    <CodeBlock
+      lang="typescript"
+      code={`interface InvoiceItem {
+  name: string;
+  price: number;
+}
+
+class Invoice {
+  constructor(private items: InvoiceItem[]) {}
+
+  getTotal(): number {
+    return this.items.reduce((sum, item) => sum + item.price, 0);
+  }
+
+  getItems(): InvoiceItem[] {
+    return this.items;
+  }
+}
+
+class InvoicePrinter {
+  print(invoice: Invoice): string {
+    return invoice
+      .getItems()
+      .map((i) => \`\${i.name}: \${i.price}\`)
+      .join('\\n');
+  }
+}
+
+class InvoiceRepository {
+  save(invoice: Invoice): void {
+    console.log('Guardando factura en la base de datos...', invoice.getTotal());
+  }
+}`}
+    />
+    <p class="section-desc">
+      Ahora <code>Invoice</code> solo modela los datos y el cálculo del total,
+      <code>InvoicePrinter</code> solo sabe formatear, y <code>InvoiceRepository</code>
+      solo sabe persistir. Cada clase cambia por una única razón.
+    </p>
+  </section>
+
+  <Note>
+    SRP no significa "una clase = un método". Significa "una clase = un motivo de
+    cambio". Es normal que una clase tenga varios métodos, siempre que todos sirvan a
+    la misma responsabilidad.
+  </Note>
+
+  <div class="tag-list">
+    <span class="tag">cohesión</span>
+    <span class="tag">separación de responsabilidades</span>
+    <span class="tag">SRP</span>
+  </div>
+</ConceptLayout>

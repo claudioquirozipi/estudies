@@ -1,0 +1,106 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import Note from '../../../../components/Note.astro';
+---
+
+<ConceptLayout
+  title="Inversión de dependencias (DIP)"
+  description="Los módulos de alto nivel no deben depender de los de bajo nivel; ambos deben depender de abstracciones."
+  color="#10b981"
+  topic="SOLID"
+  topicHref="/topics/solid"
+  category="Principios"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué es?</h2>
+    <p class="section-desc">
+      El <strong>Dependency Inversion Principle</strong> dice que la lógica de negocio
+      (alto nivel) no debería depender directamente de detalles de implementación
+      concretos (bajo nivel), como una clase específica que envía emails o que habla
+      con una base de datos. En vez de eso, ambos deberían depender de una
+      abstracción (una interfaz), y la implementación concreta se "inyecta" desde
+      afuera.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Antes: dependencia directa de una clase concreta</h2>
+    <CodeBlock
+      lang="typescript"
+      code={`class EmailSender {
+  send(to: string, message: string): void {
+    console.log(\`Email a \${to}: \${message}\`);
+  }
+}
+
+// El módulo de alto nivel depende directamente del detalle de bajo nivel
+class NotificationService {
+  private emailSender = new EmailSender();
+
+  notify(user: string, message: string): void {
+    this.emailSender.send(user, message);
+  }
+}`}
+    />
+    <p class="section-desc">
+      Si mañana hay que notificar por SMS o push en vez de (o además de) email, hay que
+      modificar <code>NotificationService</code> directamente. Y para testear esta
+      clase de forma aislada, es imposible reemplazar <code>EmailSender</code> por un
+      mock sin tocar el código.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Después: se depende de una abstracción</h2>
+    <CodeBlock
+      lang="typescript"
+      code={`interface MessageSender {
+  send(to: string, message: string): void;
+}
+
+class EmailSender implements MessageSender {
+  send(to: string, message: string): void {
+    console.log(\`Email a \${to}: \${message}\`);
+  }
+}
+
+class SmsSender implements MessageSender {
+  send(to: string, message: string): void {
+    console.log(\`SMS a \${to}: \${message}\`);
+  }
+}
+
+// El módulo de alto nivel solo conoce la abstracción
+class NotificationService {
+  constructor(private sender: MessageSender) {}
+
+  notify(user: string, message: string): void {
+    this.sender.send(user, message);
+  }
+}
+
+const service = new NotificationService(new SmsSender());
+service.notify('+54 9 11 1234-5678', 'Tu pedido fue enviado');`}
+    />
+    <p class="section-desc">
+      <code>NotificationService</code> ya no sabe (ni le importa) si se manda un email
+      o un SMS: recibe cualquier <code>MessageSender</code> por su constructor. Esto se
+      llama <strong>inyección de dependencias</strong>, y también hace que sea trivial
+      pasar un sender falso en los tests.
+    </p>
+  </section>
+
+  <Note>
+    "Inversión" se refiere a que, normalmente, el módulo de alto nivel definiría y
+    controlaría al de bajo nivel; acá se invierte: ambos dependen de una interfaz
+    definida en función del módulo de alto nivel, y el detalle concreto se adapta a
+    ella.
+  </Note>
+
+  <div class="tag-list">
+    <span class="tag">inyección de dependencias</span>
+    <span class="tag">abstracción</span>
+    <span class="tag">DIP</span>
+  </div>
+</ConceptLayout>

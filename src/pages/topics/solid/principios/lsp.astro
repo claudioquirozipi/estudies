@@ -1,0 +1,126 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import Note from '../../../../components/Note.astro';
+---
+
+<ConceptLayout
+  title="Sustitución de Liskov (LSP)"
+  description="Los objetos de una subclase deben poder reemplazar a los de su clase base sin alterar el comportamiento correcto del programa."
+  color="#10b981"
+  topic="SOLID"
+  topicHref="/topics/solid"
+  category="Principios"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué es?</h2>
+    <p class="section-desc">
+      El <strong>Liskov Substitution Principle</strong> dice que si <code>B</code> es
+      una subclase de <code>A</code>, cualquier código que funcione con <code>A</code>
+      debe seguir funcionando igual de bien si en su lugar se le pasa un
+      <code>B</code>. Si una subclase cambia el comportamiento esperado (lanza errores
+      donde no se esperaban, ignora parámetros, devuelve otra cosa), rompe el
+      contrato y viola LSP.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Antes: la subclase rompe el contrato</h2>
+    <CodeBlock
+      lang="typescript"
+      code={`class Rectangle {
+  constructor(protected width: number, protected height: number) {}
+
+  setWidth(width: number): void {
+    this.width = width;
+  }
+
+  setHeight(height: number): void {
+    this.height = height;
+  }
+
+  getArea(): number {
+    return this.width * this.height;
+  }
+}
+
+// Un cuadrado "es un" rectángulo... pero no se comporta igual
+class Square extends Rectangle {
+  setWidth(width: number): void {
+    this.width = width;
+    this.height = width; // efecto colateral inesperado
+  }
+
+  setHeight(height: number): void {
+    this.width = height;
+    this.height = height; // efecto colateral inesperado
+  }
+}
+
+function testArea(rect: Rectangle) {
+  rect.setWidth(5);
+  rect.setHeight(4);
+  console.log(rect.getArea()); // se espera 20
+}
+
+testArea(new Rectangle(0, 0)); // 20 ✅
+testArea(new Square(0, 0)); // 16 ❌ — rompe la expectativa`}
+    />
+    <p class="section-desc">
+      <code>Square</code> hereda de <code>Rectangle</code> pero no puede sustituirlo:
+      cualquier código escrito para <code>Rectangle</code> deja de dar el resultado
+      esperado cuando recibe un <code>Square</code>.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Después: modelar el contrato correcto</h2>
+    <CodeBlock
+      lang="typescript"
+      code={`interface Shape {
+  getArea(): number;
+}
+
+class Rectangle implements Shape {
+  constructor(private width: number, private height: number) {}
+
+  getArea(): number {
+    return this.width * this.height;
+  }
+}
+
+class Square implements Shape {
+  constructor(private side: number) {}
+
+  getArea(): number {
+    return this.side ** 2;
+  }
+}
+
+function printArea(shape: Shape) {
+  console.log(shape.getArea());
+}
+
+printArea(new Rectangle(5, 4)); // 20 ✅
+printArea(new Square(4)); // 16 ✅ — comportamiento consistente con su propio contrato`}
+    />
+    <p class="section-desc">
+      En vez de forzar una relación de herencia que no reflejaba la realidad,
+      <code>Rectangle</code> y <code>Square</code> pasan a implementar una interfaz
+      común (<code>Shape</code>) con un contrato mínimo que ambas cumplen sin
+      sorpresas.
+    </p>
+  </section>
+
+  <Note>
+    Una señal de alerta de que se está violando LSP: una subclase que sobreescribe un
+    método solo para lanzar un error ("no soportado") o para que haga menos de lo que
+    prometía la clase base.
+  </Note>
+
+  <div class="tag-list">
+    <span class="tag">herencia</span>
+    <span class="tag">contratos</span>
+    <span class="tag">LSP</span>
+  </div>
+</ConceptLayout>

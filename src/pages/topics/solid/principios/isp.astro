@@ -1,0 +1,115 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import Note from '../../../../components/Note.astro';
+---
+
+<ConceptLayout
+  title="Segregación de interfaces (ISP)"
+  description="Ningún cliente debería estar obligado a depender de métodos que no usa."
+  color="#10b981"
+  topic="SOLID"
+  topicHref="/topics/solid"
+  category="Principios"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué es?</h2>
+    <p class="section-desc">
+      El <strong>Interface Segregation Principle</strong> dice que es mejor tener
+      varias interfaces pequeñas y específicas que una sola interfaz "gorda" con
+      métodos que no todos los implementadores necesitan. Una interfaz demasiado
+      grande obliga a las clases a implementar (o simular) comportamiento que no les
+      corresponde.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Antes: una interfaz que no le sirve a todos</h2>
+    <CodeBlock
+      lang="typescript"
+      code={`interface Worker {
+  work(): void;
+  eat(): void;
+}
+
+class HumanWorker implements Worker {
+  work(): void {
+    console.log('Trabajando...');
+  }
+
+  eat(): void {
+    console.log('Almorzando...');
+  }
+}
+
+// Un robot no come, pero la interfaz lo obliga a implementar eat()
+class RobotWorker implements Worker {
+  work(): void {
+    console.log('Ejecutando tareas...');
+  }
+
+  eat(): void {
+    throw new Error('Los robots no comen');
+  }
+}`}
+    />
+    <p class="section-desc">
+      <code>RobotWorker</code> se ve forzado a implementar <code>eat()</code> aunque no
+      tiene sentido para él, terminando en un método que solo lanza un error. Cualquier
+      código que reciba un <code>Worker</code> genérico y llame a <code>eat()</code>
+      puede romperse en tiempo de ejecución.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Después: interfaces pequeñas y específicas</h2>
+    <CodeBlock
+      lang="typescript"
+      code={`interface Workable {
+  work(): void;
+}
+
+interface Eatable {
+  eat(): void;
+}
+
+class HumanWorker implements Workable, Eatable {
+  work(): void {
+    console.log('Trabajando...');
+  }
+
+  eat(): void {
+    console.log('Almorzando...');
+  }
+}
+
+// El robot solo implementa lo que realmente necesita
+class RobotWorker implements Workable {
+  work(): void {
+    console.log('Ejecutando tareas...');
+  }
+}
+
+function makeWork(worker: Workable) {
+  worker.work();
+}`}
+    />
+    <p class="section-desc">
+      Al dividir <code>Worker</code> en <code>Workable</code> y <code>Eatable</code>,
+      cada clase implementa solo las capacidades que efectivamente tiene, y el código
+      que solo necesita hacer trabajar a alguien depende únicamente de
+      <code>Workable</code>.
+    </p>
+  </section>
+
+  <Note>
+    ISP suele ir de la mano con OCP y DIP: interfaces chicas y enfocadas son más
+    fáciles de extender y de sustituir por implementaciones alternativas.
+  </Note>
+
+  <div class="tag-list">
+    <span class="tag">interfaces</span>
+    <span class="tag">bajo acoplamiento</span>
+    <span class="tag">ISP</span>
+  </div>
+</ConceptLayout>
