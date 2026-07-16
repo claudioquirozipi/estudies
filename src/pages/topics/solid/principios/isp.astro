@@ -1,13 +1,17 @@
 ---
 import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
 import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
 import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#10b981';
 ---
 
 <ConceptLayout
   title="Segregación de interfaces (ISP)"
   description="Ningún cliente debería estar obligado a depender de métodos que no usa."
-  color="#10b981"
+  color={color}
   topic="SOLID"
   topicHref="/topics/solid"
   category="Principios"
@@ -54,10 +58,7 @@ class RobotWorker implements Worker {
 }`}
     />
     <p class="section-desc">
-      <code>RobotWorker</code> se ve forzado a implementar <code>eat()</code> aunque no
-      tiene sentido para él, terminando en un método que solo lanza un error. Cualquier
-      código que reciba un <code>Worker</code> genérico y llame a <code>eat()</code>
-      puede romperse en tiempo de ejecución.
+      <CodeInline>RobotWorker</CodeInline> se ve forzado a implementar <CodeInline>eat()</CodeInline> aunque no tiene sentido para él, terminando en un método que solo lanza un error. Cualquier código que reciba un <CodeInline>Worker</CodeInline> genérico y llame a <CodeInline>eat()</CodeInline> puede romperse en tiempo de ejecución.
     </p>
   </section>
 
@@ -95,10 +96,7 @@ function makeWork(worker: Workable) {
 }`}
     />
     <p class="section-desc">
-      Al dividir <code>Worker</code> en <code>Workable</code> y <code>Eatable</code>,
-      cada clase implementa solo las capacidades que efectivamente tiene, y el código
-      que solo necesita hacer trabajar a alguien depende únicamente de
-      <code>Workable</code>.
+      Al dividir <CodeInline>Worker</CodeInline> en <CodeInline>Workable</CodeInline> y <CodeInline>Eatable</CodeInline>, cada clase implementa solo las capacidades que efectivamente tiene, y el código que solo necesita hacer trabajar a alguien depende únicamente de <CodeInline>Workable</CodeInline>.
     </p>
   </section>
 
@@ -108,8 +106,8 @@ function makeWork(worker: Workable) {
   </Note>
 
   <div class="tag-list">
-    <span class="tag">interfaces</span>
-    <span class="tag">bajo acoplamiento</span>
-    <span class="tag">ISP</span>
+    <Tag color={color}>interfaces</Tag>
+    <Tag color={color}>bajo acoplamiento</Tag>
+    <Tag color={color}>ISP</Tag>
   </div>
 </ConceptLayout>

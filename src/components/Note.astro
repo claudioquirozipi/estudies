@@ -7,8 +7,7 @@ const { label = 'A tener en cuenta:' } = Astro.props;
 ---
 
 <div class="note">
-  {label && <strong>{label}</strong>}
-  <slot />
+  {label && <strong>{label}</strong>} <slot />
 </div>
 
 <style>

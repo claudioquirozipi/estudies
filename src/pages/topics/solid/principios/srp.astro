@@ -1,13 +1,17 @@
 ---
 import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
 import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
 import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#10b981';
 ---
 
 <ConceptLayout
   title="Responsabilidad única (SRP)"
   description="Una clase o módulo debe tener una, y solo una, razón para cambiar."
-  color="#10b981"
+  color={color}
   topic="SOLID"
   topicHref="/topics/solid"
   category="Principios"
@@ -91,9 +95,8 @@ class InvoiceRepository {
 }`}
     />
     <p class="section-desc">
-      Ahora <code>Invoice</code> solo modela los datos y el cálculo del total,
-      <code>InvoicePrinter</code> solo sabe formatear, y <code>InvoiceRepository</code>
-      solo sabe persistir. Cada clase cambia por una única razón.
+      Ahora <CodeInline>Invoice</CodeInline> solo modela los datos y el cálculo del total, <CodeInline>InvoicePrinter</CodeInline> solo
+      sabe formatear, y <CodeInline>InvoiceRepository</CodeInline> solo sabe persistir. Cada clase cambia por una única razón.
     </p>
   </section>
 
@@ -104,8 +107,8 @@ class InvoiceRepository {
   </Note>
 
   <div class="tag-list">
-    <span class="tag">cohesión</span>
-    <span class="tag">separación de responsabilidades</span>
-    <span class="tag">SRP</span>
+    <Tag color={color}>cohesión</Tag>
+    <Tag color={color}>separación de responsabilidades</Tag>
+    <Tag color={color}>SRP</Tag>
   </div>
 </ConceptLayout>

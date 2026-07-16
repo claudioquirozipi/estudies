@@ -1,13 +1,17 @@
 ---
 import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
 import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
 import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#10b981';
 ---
 
 <ConceptLayout
   title="Sustitución de Liskov (LSP)"
   description="Los objetos de una subclase deben poder reemplazar a los de su clase base sin alterar el comportamiento correcto del programa."
-  color="#10b981"
+  color={color}
   topic="SOLID"
   topicHref="/topics/solid"
   category="Principios"
@@ -15,12 +19,7 @@ import Note from '../../../../components/Note.astro';
   <section class="section">
     <h2 class="section-title">¿Qué es?</h2>
     <p class="section-desc">
-      El <strong>Liskov Substitution Principle</strong> dice que si <code>B</code> es
-      una subclase de <code>A</code>, cualquier código que funcione con <code>A</code>
-      debe seguir funcionando igual de bien si en su lugar se le pasa un
-      <code>B</code>. Si una subclase cambia el comportamiento esperado (lanza errores
-      donde no se esperaban, ignora parámetros, devuelve otra cosa), rompe el
-      contrato y viola LSP.
+      El <strong>Liskov Substitution Principle</strong> dice que si <CodeInline>B</CodeInline> es una subclase de <CodeInline>A</CodeInline>, cualquier código que funcione con <CodeInline>A</CodeInline> debe seguir funcionando igual de bien si en su lugar se le pasa un <CodeInline>B</CodeInline>. Si una subclase cambia el comportamiento esperado (lanza errores donde no se esperaban, ignora parámetros, devuelve otra cosa), rompe el contrato y viola LSP.
     </p>
   </section>
 
@@ -67,9 +66,7 @@ testArea(new Rectangle(0, 0)); // 20 ✅
 testArea(new Square(0, 0)); // 16 ❌ — rompe la expectativa`}
     />
     <p class="section-desc">
-      <code>Square</code> hereda de <code>Rectangle</code> pero no puede sustituirlo:
-      cualquier código escrito para <code>Rectangle</code> deja de dar el resultado
-      esperado cuando recibe un <code>Square</code>.
+      <CodeInline>Square</CodeInline> hereda de <CodeInline>Rectangle</CodeInline> pero no puede sustituirlo: cualquier código escrito para <CodeInline>Rectangle</CodeInline> deja de dar el resultado esperado cuando recibe un <CodeInline>Square</CodeInline>.
     </p>
   </section>
 
@@ -105,10 +102,7 @@ printArea(new Rectangle(5, 4)); // 20 ✅
 printArea(new Square(4)); // 16 ✅ — comportamiento consistente con su propio contrato`}
     />
     <p class="section-desc">
-      En vez de forzar una relación de herencia que no reflejaba la realidad,
-      <code>Rectangle</code> y <code>Square</code> pasan a implementar una interfaz
-      común (<code>Shape</code>) con un contrato mínimo que ambas cumplen sin
-      sorpresas.
+      En vez de forzar una relación de herencia que no reflejaba la realidad, <CodeInline>Rectangle</CodeInline> y <CodeInline>Square</CodeInline> pasan a implementar una interfaz común (<CodeInline>Shape</CodeInline>) con un contrato mínimo que ambas cumplen sin sorpresas.
     </p>
   </section>
 
@@ -119,8 +113,8 @@ printArea(new Square(4)); // 16 ✅ — comportamiento consistente con su propio
   </Note>
 
   <div class="tag-list">
-    <span class="tag">herencia</span>
-    <span class="tag">contratos</span>
-    <span class="tag">LSP</span>
+    <Tag color={color}>herencia</Tag>
+    <Tag color={color}>contratos</Tag>
+    <Tag color={color}>LSP</Tag>
   </div>
 </ConceptLayout>

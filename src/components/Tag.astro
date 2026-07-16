@@ -1,0 +1,23 @@
+---
+interface Props {
+  color?: string;
+}
+
+const { color = '#5b9bd5' } = Astro.props;
+---
+
+<span class="tag" style={`background: ${color}2e; color: ${color}; border-color: ${color}60`}>
+  <slot />
+</span>
+
+<style>
+  .tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+</style>

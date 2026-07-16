@@ -1,13 +1,17 @@
 ---
 import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
 import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
 import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#10b981';
 ---
 
 <ConceptLayout
   title="Abierto/cerrado (OCP)"
   description="Las entidades de software deben estar abiertas a extensión, pero cerradas a modificación."
-  color="#10b981"
+  color={color}
   topic="SOLID"
   topicHref="/topics/solid"
   category="Principios"
@@ -48,9 +52,8 @@ class AreaCalculator {
 }`}
     />
     <p class="section-desc">
-      Cada vez que aparece una figura nueva (triángulo, rectángulo...) hay que volver a
-      abrir <code>AreaCalculator</code> y agregar otro <code>else if</code>, con el
-      riesgo de romper los casos que ya funcionaban.
+      Cada vez que aparece una figura nueva (triángulo, rectángulo...) hay que volver a abrir <CodeInline>AreaCalculator</CodeInline> y
+      agregar otro <CodeInline>else if</CodeInline>, con el riesgo de romper los casos que ya funcionaban.
     </p>
   </section>
 
@@ -94,9 +97,7 @@ class AreaCalculator {
 }`}
     />
     <p class="section-desc">
-      <code>AreaCalculator</code> ya no conoce los tipos concretos: solo depende de la
-      abstracción <code>Shape</code>. Agregar <code>Triangle</code> no requiere tocar
-      ni una línea de las clases existentes.
+      <CodeInline>AreaCalculator</CodeInline> ya no conoce los tipos concretos: solo depende de la abstracción <CodeInline>Shape</CodeInline>. Agregar <CodeInline>Triangle</CodeInline> no requiere tocar ni una línea de las clases existentes.
     </p>
   </section>
 
@@ -106,8 +107,8 @@ class AreaCalculator {
   </Note>
 
   <div class="tag-list">
-    <span class="tag">polimorfismo</span>
-    <span class="tag">abstracción</span>
-    <span class="tag">OCP</span>
+    <Tag color={color}>polimorfismo</Tag>
+    <Tag color={color}>abstracción</Tag>
+    <Tag color={color}>OCP</Tag>
   </div>
 </ConceptLayout>
