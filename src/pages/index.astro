@@ -1,11 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import cssLogo from '../assets/logos/css.svg';
+import linuxLogo from '../assets/logos/linux.png';
 
 const topics = [
   {
     slug: 'css',
     name: 'CSS',
     abbr: '{ }',
+    logo: cssLogo,
     color: '#5b9bd5',
     description: 'Flexbox, Grid, animaciones, variables CSS y arquitectura de estilos.',
     status: 'disponible',
@@ -14,6 +18,7 @@ const topics = [
     slug: 'solid',
     name: 'SOLID',
     abbr: 'S',
+    logo: undefined,
     color: '#10b981',
     description: 'Los cinco principios de diseño orientado a objetos, con ejemplos en TypeScript.',
     status: 'disponible',
@@ -22,6 +27,7 @@ const topics = [
     slug: 'linux',
     name: 'Linux',
     abbr: '/',
+    logo: linuxLogo,
     color: '#dd8500',
     description: 'La estructura de carpetas del sistema y los comandos básicos de Bash.',
     status: 'disponible',
@@ -55,7 +61,18 @@ const topics = [
             >
               <div class="card-accent" />
               <div class="card-top">
-                <span class="card-icon">{topic.abbr}</span>
+                {topic.logo ? (
+                  <Image
+                    src={topic.logo}
+                    alt={`Logo de ${topic.name}`}
+                    width={40}
+                    height={40}
+                    class="card-icon-img"
+                    transition:name={`logo-${topic.slug}`}
+                  />
+                ) : (
+                  <span class="card-icon">{topic.abbr}</span>
+                )}
                 {topic.status === 'disponible' ? (
                   <span class="badge badge--ready">Disponible</span>
                 ) : (
@@ -63,7 +80,7 @@ const topics = [
                 )}
               </div>
               <div class="card-body">
-                <h3 class="card-name">{topic.name}</h3>
+                <h3 class="card-name" transition:name={`title-${topic.slug}`}>{topic.name}</h3>
                 <p class="card-desc">{topic.description}</p>
               </div>
               {topic.status === 'disponible' && (
@@ -205,6 +222,16 @@ const topics = [
     font-size: 0.85rem;
     font-weight: 700;
     font-family: var(--font-mono);
+    border: 1px solid color-mix(in srgb, var(--color) 22%, transparent);
+  }
+
+  .card-icon-img {
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0.4rem;
+    object-fit: contain;
+    background: color-mix(in srgb, var(--color) 12%, transparent);
+    border-radius: 8px;
     border: 1px solid color-mix(in srgb, var(--color) 22%, transparent);
   }
 

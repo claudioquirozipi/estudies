@@ -1,6 +1,7 @@
 ---
 import TopicLayout from '../../../layouts/TopicLayout.astro';
 import RoadmapNode from '../../../components/RoadmapNode.astro';
+import linuxLogo from '../../../assets/logos/linux.png';
 
 const color = '#dd8500';
 
@@ -20,6 +21,8 @@ const roadmap = [
   description="La jerarquía de directorios del sistema y los comandos de Bash más usados en el día a día."
   color={color}
   topic="Linux"
+  slug="linux"
+  logo={linuxLogo}
 >
   <div class="roadmap">
     {

@@ -1,6 +1,7 @@
 ---
 import TopicLayout from '../../../layouts/TopicLayout.astro';
 import RoadmapNode from '../../../components/RoadmapNode.astro';
+import cssLogo from '../../../assets/logos/css.svg';
 
 const color = '#5b9bd5';
 
@@ -26,6 +27,8 @@ const roadmap = [
   description="Flexbox, Grid, animaciones, variables CSS, arquitectura de estilos y las novedades del lenguaje."
   color={color}
   topic="CSS"
+  slug="css"
+  logo={cssLogo}
 >
   <div class="roadmap">
     {
