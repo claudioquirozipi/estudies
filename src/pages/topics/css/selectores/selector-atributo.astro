@@ -1,0 +1,84 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
+import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#5b9bd5';
+---
+
+<ConceptLayout
+  title="Selector de atributo"
+  description="Selecciona elementos según los atributos que tengan en el HTML, con o sin importar su valor exacto."
+  color={color}
+  topic="CSS"
+  topicHref="/topics/css"
+  category="Selectores"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué es?</h2>
+    <p class="section-desc">
+      Se escribe entre corchetes (<CodeInline>[atributo]</CodeInline>) y permite seleccionar elementos por la simple presencia de un atributo, por su valor exacto, o por una coincidencia parcial de ese valor. Es muy útil para estilar formularios o enlaces sin depender de clases adicionales.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Presencia y valor exacto</h2>
+    <CodeBlock
+      lang="css"
+      code={`/* Cualquier elemento que tenga el atributo "disabled", sea cual sea su valor */
+[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Solo los <input> cuyo atributo type valga exactamente "email" */
+input[type="email"] {
+  border-color: #5b9bd5;
+}`}
+    />
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Coincidencias parciales</h2>
+    <p class="section-desc">
+      También se pueden usar operadores para matchear una parte del valor, muy parecido a como funcionan las expresiones regulares simples.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`/* ^= : el valor EMPIEZA con "https" */
+a[href^="https"] {
+  color: green;
+}
+
+/* $= : el valor TERMINA con ".pdf" */
+a[href$=".pdf"] {
+  font-weight: 600;
+}
+
+/* *= : el valor CONTIENE "docs" en cualquier parte */
+a[href*="docs"] {
+  text-decoration: underline;
+}
+
+/* ~= : el valor es una de las palabras separadas por espacio */
+[class~="destacado"] {
+  background: yellow;
+}`}
+    />
+    <p class="section-desc">
+      Una combinación clásica es marcar visualmente los enlaces externos que abren en PDF, o distinguir links que van a un dominio distinto, sin tener que agregarles una clase manualmente en el HTML.
+    </p>
+  </section>
+
+  <Note>
+    Se puede agregar una <CodeInline>i</CodeInline> antes del corchete de cierre (<CodeInline>[type="email" i]</CodeInline>) para que la comparación del valor ignore mayúsculas y minúsculas. Sin ese flag, <CodeInline>[type="email"]</CodeInline> no matchea <CodeInline>type="EMAIL"</CodeInline>.
+  </Note>
+
+  <div class="tag-list">
+    <Tag color={color}>especificidad: 0-1-0</Tag>
+    <Tag color={color}>formularios</Tag>
+    <Tag color={color}>coincidencia parcial</Tag>
+  </div>
+</ConceptLayout>

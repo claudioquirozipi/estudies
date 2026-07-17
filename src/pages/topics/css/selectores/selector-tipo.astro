@@ -1,0 +1,69 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
+import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#5b9bd5';
+---
+
+<ConceptLayout
+  title="Selector de tipo (elemento)"
+  description="Selecciona todos los elementos de una misma etiqueta HTML, como todos los <p> o todos los <li> de la página."
+  color={color}
+  topic="CSS"
+  topicHref="/topics/css"
+  category="Selectores"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué es?</h2>
+    <p class="section-desc">
+      El selector de tipo (también llamado selector de elemento) usa directamente el nombre de la etiqueta HTML, sin puntos ni almohadillas. Selecciona <strong>todos</strong> los elementos de ese tipo que haya en el documento.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Ejemplo</h2>
+    <CodeBlock
+      lang="css"
+      code={`p {
+  color: #333;
+  line-height: 1.6;
+}
+
+li {
+  list-style: none;
+}`}
+    />
+    <p class="section-desc">
+      El primer bloque aplica esos estilos a todos los <CodeInline>&lt;p&gt;</CodeInline>, y el segundo a todos los <CodeInline>&lt;li&gt;</CodeInline>, sin importar en qué parte del HTML estén ni qué clases tengan.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Combinar varios tipos con coma</h2>
+    <p class="section-desc">
+      Si varios elementos van a compartir el mismo estilo, se pueden agrupar separándolos con comas en vez de repetir el bloque completo.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`h1,
+h2,
+h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+}`}
+    />
+  </section>
+
+  <Note>
+    La especificidad de un selector de tipo es la más baja después del selector universal (<CodeInline>*</CodeInline>): vale <CodeInline>0-0-1</CodeInline>. Cualquier clase o ID lo va a pisar sin esfuerzo, así que es ideal para estilos base, no para casos puntuales.
+  </Note>
+
+  <div class="tag-list">
+    <Tag color={color}>especificidad: 0-0-1</Tag>
+    <Tag color={color}>selector base</Tag>
+    <Tag color={color}>estilos globales</Tag>
+  </div>
+</ConceptLayout>

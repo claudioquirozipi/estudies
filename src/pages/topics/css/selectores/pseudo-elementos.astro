@@ -1,0 +1,97 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
+import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#5b9bd5';
+---
+
+<ConceptLayout
+  title="Pseudo-elementos"
+  description="Permiten estilar una parte específica de un elemento, o directamente crear contenido que no existe como etiqueta propia en el HTML."
+  color={color}
+  topic="CSS"
+  topicHref="/topics/css"
+  category="Selectores"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué son?</h2>
+    <p class="section-desc">
+      Un pseudo-elemento se escribe con dos puntos dobles (<CodeInline>::nombre</CodeInline>) y actúa como si insertara un elemento extra dentro de otro, sin tener que agregarlo al HTML. La convención moderna usa <CodeInline>::</CodeInline> (doble) para diferenciarlos de las pseudo-clases, que usan <CodeInline>:</CodeInline> (simple), aunque por compatibilidad los navegadores todavía aceptan la sintaxis vieja con uno solo en casos como <CodeInline>:before</CodeInline>.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">::before y ::after</h2>
+    <p class="section-desc">
+      Insertan contenido generado justo antes o después del contenido real de un elemento. Necesitan la propiedad <CodeInline>content</CodeInline> para existir, aunque sea vacía.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`.tooltip::before {
+  content: "";
+  position: absolute;
+  border: 6px solid transparent;
+  border-top-color: black;
+}
+
+.required::after {
+  content: " *";
+  color: red;
+}`}
+    />
+    <p class="section-desc">
+      Se usan mucho para íconos decorativos, flechitas de tooltips, o marcar campos obligatorios en un formulario, sin ensuciar el HTML con elementos que no tienen significado semántico.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">::first-line y ::first-letter</h2>
+    <CodeBlock
+      lang="css"
+      code={`p::first-line {
+  font-weight: 600;
+}
+
+p::first-letter {
+  font-size: 2.5em;
+  float: left;
+  line-height: 1;
+}`}
+    />
+    <p class="section-desc">
+      <CodeInline>::first-line</CodeInline> estila la primera línea del texto (recalculándose según el ancho disponible), y <CodeInline>::first-letter</CodeInline> apunta solo a la primera letra — el clásico efecto de letra capital en revistas y diarios.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">::placeholder y ::selection</h2>
+    <CodeBlock
+      lang="css"
+      code={`input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+::selection {
+  background: #5b9bd5;
+  color: white;
+}`}
+    />
+    <p class="section-desc">
+      <CodeInline>::placeholder</CodeInline> estila el texto de ayuda de un <CodeInline>&lt;input&gt;</CodeInline> vacío, y <CodeInline>::selection</CodeInline> cambia cómo se ve el texto que el usuario selecciona con el mouse.
+    </p>
+  </section>
+
+  <Note>
+    Un elemento solo puede tener un <CodeInline>::before</CodeInline> y un <CodeInline>::after</CodeInline> — no se pueden apilar varios. Si necesitás más de dos elementos generados, la alternativa es agregar el HTML real o combinar pseudo-elementos con pseudo-clases, por ejemplo <CodeInline>li::before</CodeInline> junto con <CodeInline>li:hover::before</CodeInline>.
+  </Note>
+
+  <div class="tag-list">
+    <Tag color={color}>contenido generado</Tag>
+    <Tag color={color}>::before / ::after</Tag>
+    <Tag color={color}>pseudo-elementos</Tag>
+  </div>
+</ConceptLayout>

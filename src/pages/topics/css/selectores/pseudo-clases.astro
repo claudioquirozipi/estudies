@@ -1,0 +1,104 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
+import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#5b9bd5';
+---
+
+<ConceptLayout
+  title="Pseudo-clases"
+  description="Seleccionan elementos según un estado o una posición, cosas que no se pueden expresar con una clase o un tipo normal."
+  color={color}
+  topic="CSS"
+  topicHref="/topics/css"
+  category="Selectores"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué son?</h2>
+    <p class="section-desc">
+      Una pseudo-clase se escribe con dos puntos (<CodeInline>:nombre</CodeInline>) y describe un <strong>estado</strong> especial de un elemento: que el mouse esté encima, que sea el primero de su tipo, que un checkbox esté marcado. No agregan nada al HTML, y no se pueden lograr con un selector normal porque dependen de algo dinámico o de la posición.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Pseudo-clases de interacción</h2>
+    <CodeBlock
+      lang="css"
+      code={`a:hover {
+  text-decoration: underline;
+}
+
+button:focus {
+  outline: 2px solid #5b9bd5;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+input:disabled {
+  opacity: 0.5;
+}`}
+    />
+    <p class="section-desc">
+      <CodeInline>:hover</CodeInline> aplica mientras el cursor está encima, <CodeInline>:focus</CodeInline> mientras el elemento tiene el foco del teclado, <CodeInline>:active</CodeInline> mientras se lo está presionando, y <CodeInline>:disabled</CodeInline> mientras el elemento está deshabilitado.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Pseudo-clases de posición</h2>
+    <CodeBlock
+      lang="css"
+      code={`li:first-child {
+  font-weight: 600;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+tr:nth-child(even) {
+  background: #f5f5f5;
+}
+
+li:nth-child(3n) {
+  color: #5b9bd5;
+}`}
+    />
+    <p class="section-desc">
+      <CodeInline>:first-child</CodeInline> y <CodeInline>:last-child</CodeInline> apuntan al primer y último elemento entre sus hermanos. <CodeInline>:nth-child()</CodeInline> es más flexible: acepta un número fijo, palabras clave como <CodeInline>even</CodeInline>/<CodeInline>odd</CodeInline>, o una fórmula como <CodeInline>3n</CodeInline> para seleccionar uno de cada tres.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">:not() y :checked</h2>
+    <CodeBlock
+      lang="css"
+      code={`/* Todos los botones excepto el que tiene la clase .btn--primary */
+button:not(.btn--primary) {
+  background: transparent;
+}
+
+/* El label que sigue justo a un checkbox marcado */
+input:checked + label {
+  color: green;
+}`}
+    />
+    <p class="section-desc">
+      <CodeInline>:not()</CodeInline> invierte la selección, y <CodeInline>:checked</CodeInline> aplica a checkboxes o radios marcados — muy útil combinado con el combinador <CodeInline>+</CodeInline> para reaccionar a un estado sin JavaScript.
+    </p>
+  </section>
+
+  <Note>
+    <CodeInline>:first-child</CodeInline> exige que el elemento sea literalmente el primer hijo de su padre, aunque sea de otro tipo. Si buscás "el primer <CodeInline>&lt;li&gt;</CodeInline> entre sus hermanos <CodeInline>&lt;li&gt;</CodeInline>", la pseudo-clase correcta es <CodeInline>:first-of-type</CodeInline>.
+  </Note>
+
+  <div class="tag-list">
+    <Tag color={color}>estados</Tag>
+    <Tag color={color}>nth-child</Tag>
+    <Tag color={color}>pseudo-clases</Tag>
+  </div>
+</ConceptLayout>

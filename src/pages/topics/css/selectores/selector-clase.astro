@@ -1,0 +1,79 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
+import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#5b9bd5';
+---
+
+<ConceptLayout
+  title="Selector de clase"
+  description="Selecciona cualquier elemento que tenga un atributo class con ese nombre, sin importar la etiqueta que sea."
+  color={color}
+  topic="CSS"
+  topicHref="/topics/css"
+  category="Selectores"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué es?</h2>
+    <p class="section-desc">
+      El selector de clase se escribe con un punto seguido del nombre de la clase (<CodeInline>.nombre</CodeInline>) y selecciona a todos los elementos que tengan ese valor en su atributo <CodeInline>class</CodeInline> del HTML. Es el selector más usado en la práctica, porque es reutilizable: un mismo elemento puede tener varias clases, y una misma clase puede repetirse en muchos elementos distintos.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Ejemplo</h2>
+    <CodeBlock
+      lang="html"
+      code={`<button class="btn">Guardar</button>
+<a class="btn" href="/perfil">Ver perfil</a>`}
+    />
+    <CodeBlock
+      lang="css"
+      code={`.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  background: #5b9bd5;
+  color: white;
+}`}
+    />
+    <p class="section-desc">
+      Tanto el <CodeInline>&lt;button&gt;</CodeInline> como el <CodeInline>&lt;a&gt;</CodeInline> reciben el mismo estilo, porque ambos comparten la clase <CodeInline>.btn</CodeInline> aunque sean etiquetas distintas.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Varias clases en un mismo elemento</h2>
+    <p class="section-desc">
+      Un elemento puede tener más de una clase, separadas por espacios en el HTML. En CSS, escribir dos selectores de clase pegados (sin espacio entre ellos) selecciona solo a los elementos que tengan <strong>ambas</strong> clases a la vez.
+    </p>
+    <CodeBlock
+      lang="html"
+      code={`<button class="btn btn--primary">Confirmar</button>`}
+    />
+    <CodeBlock
+      lang="css"
+      code={`.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+}
+
+.btn.btn--primary {
+  background: #5b9bd5;
+  color: white;
+}`}
+    />
+  </section>
+
+  <Note>
+    Su especificidad es <CodeInline>0-1-0</CodeInline>: le gana a cualquier selector de tipo, pero pierde contra un ID. Es el punto justo entre reutilizable y suficientemente específico, por eso se recomienda como la base de casi cualquier sistema de estilos.
+  </Note>
+
+  <div class="tag-list">
+    <Tag color={color}>especificidad: 0-1-0</Tag>
+    <Tag color={color}>reutilizable</Tag>
+    <Tag color={color}>class</Tag>
+  </div>
+</ConceptLayout>

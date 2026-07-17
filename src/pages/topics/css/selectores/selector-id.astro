@@ -1,0 +1,75 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
+import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#5b9bd5';
+---
+
+<ConceptLayout
+  title="Selector de ID"
+  description="Selecciona un único elemento a partir de su atributo id, que en teoría no debería repetirse en toda la página."
+  color={color}
+  topic="CSS"
+  topicHref="/topics/css"
+  category="Selectores"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué es?</h2>
+    <p class="section-desc">
+      El selector de ID se escribe con una almohadilla seguida del valor del atributo <CodeInline>id</CodeInline> (<CodeInline>#nombre</CodeInline>). A diferencia de las clases, un <CodeInline>id</CodeInline> debería ser único: cada valor solo debería usarse en un elemento por página. Por eso este selector, en la práctica, apunta a un elemento puntual y no a un grupo.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Ejemplo</h2>
+    <CodeBlock
+      lang="html"
+      code={`<header id="main-header">
+  <h1>Mi sitio</h1>
+</header>`}
+    />
+    <CodeBlock
+      lang="css"
+      code={`#main-header {
+  position: sticky;
+  top: 0;
+  background: white;
+}`}
+    />
+    <p class="section-desc">
+      Como <CodeInline>#main-header</CodeInline> apunta a un único elemento, este uso es razonable: cosas como el header principal, el contenedor raíz de la app, o un modal específico son buenos candidatos para un ID.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">¿Por qué evitarlo para estilos generales?</h2>
+    <p class="section-desc">
+      El problema no es el selector en sí, sino su especificidad: un ID pesa tanto como diez clases juntas. Si empezás a usar IDs para estilar componentes normales, cualquier ajuste posterior con una clase va a fallar en silencio porque el ID siempre gana, obligando a usar <CodeInline>!important</CodeInline> o más IDs para poder pisarlo.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`#card {
+  color: red;
+}
+
+/* Esto NO pisa al selector de arriba, aunque esté después
+   y parezca más específico visualmente */
+.card.card--success {
+  color: green;
+}`}
+    />
+  </section>
+
+  <Note>
+    Su especificidad es <CodeInline>1-0-0</CodeInline>, la más alta de los selectores "normales" (por debajo solo quedan los estilos inline y <CodeInline>!important</CodeInline>). Usalo para anclas de JavaScript o para elementos verdaderamente únicos en la página, y dejá las clases para todo lo que sea estilo visual reutilizable.
+  </Note>
+
+  <div class="tag-list">
+    <Tag color={color}>especificidad: 1-0-0</Tag>
+    <Tag color={color}>único por página</Tag>
+    <Tag color={color}>id</Tag>
+  </div>
+</ConceptLayout>

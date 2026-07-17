@@ -1,0 +1,99 @@
+---
+import ConceptLayout from '../../../../layouts/ConceptLayout.astro';
+import CodeBlock from '../../../../components/CodeBlock.astro';
+import CodeInline from '../../../../components/CodeInline.astro';
+import Note from '../../../../components/Note.astro';
+import Tag from '../../../../components/Tag.astro';
+
+const color = '#5b9bd5';
+---
+
+<ConceptLayout
+  title="Selectores combinadores"
+  description="Combinan dos o más selectores para describir una relación entre elementos: descendiente, hijo directo, hermano adyacente o hermano general."
+  color={color}
+  topic="CSS"
+  topicHref="/topics/css"
+  category="Selectores"
+>
+  <section class="section">
+    <h2 class="section-title">¿Qué son?</h2>
+    <p class="section-desc">
+      Un combinador es el símbolo (o espacio) que va entre dos selectores y define cómo se relacionan en el árbol del HTML. Hay cuatro: descendiente (espacio), hijo directo (<CodeInline>&gt;</CodeInline>), hermano adyacente (<CodeInline>+</CodeInline>) y hermano general (<CodeInline>~</CodeInline>).
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Descendiente: espacio en blanco</h2>
+    <p class="section-desc">
+      Selecciona un elemento que esté <strong>en cualquier nivel</strong> dentro de otro, sin importar cuán anidado esté.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`.card p {
+  color: gray;
+}`}
+    />
+    <p class="section-desc">
+      Esto afecta a todos los <CodeInline>&lt;p&gt;</CodeInline> dentro de <CodeInline>.card</CodeInline>, ya sea que estén directamente adentro o anidados varios niveles más profundo.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Hijo directo: &gt;</h2>
+    <p class="section-desc">
+      Selecciona solo a los elementos que son <strong>hijos inmediatos</strong>, no nietos ni descendientes más lejanos.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`.list > li {
+  border-bottom: 1px solid #eee;
+}`}
+    />
+    <p class="section-desc">
+      Si dentro de un <CodeInline>&lt;li&gt;</CodeInline> hay una lista anidada con más <CodeInline>&lt;li&gt;</CodeInline>, esos no reciben el estilo, porque no son hijos directos de <CodeInline>.list</CodeInline> sino de la lista anidada.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Hermano adyacente: +</h2>
+    <p class="section-desc">
+      Selecciona un elemento que esté <strong>justo después</strong> de otro, al mismo nivel (comparten el mismo padre).
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`h2 + p {
+  margin-top: 0;
+}`}
+    />
+    <p class="section-desc">
+      Solo el primer párrafo que viene inmediatamente después de un <CodeInline>&lt;h2&gt;</CodeInline> pierde el margen superior; el resto de los párrafos siguientes no se ven afectados.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Hermano general: ~</h2>
+    <p class="section-desc">
+      Selecciona a <strong>todos</strong> los elementos hermanos que vienen después, no solo al primero.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`h2 ~ p {
+  color: #555;
+}`}
+    />
+    <p class="section-desc">
+      Cualquier <CodeInline>&lt;p&gt;</CodeInline> que comparta padre con un <CodeInline>&lt;h2&gt;</CodeInline> y venga después de él en el HTML recibe el estilo, aunque no sea el inmediatamente siguiente.
+    </p>
+  </section>
+
+  <Note>
+    Un truco práctico con el hermano general: <CodeInline>input:checked ~ .panel</CodeInline> permite mostrar u ocultar contenido según el estado de un checkbox, sin usar JavaScript.
+  </Note>
+
+  <div class="tag-list">
+    <Tag color={color}>combinadores</Tag>
+    <Tag color={color}>relaciones en el DOM</Tag>
+    <Tag color={color}>hijo y hermanos</Tag>
+  </div>
+</ConceptLayout>
