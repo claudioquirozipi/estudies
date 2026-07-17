@@ -128,6 +128,63 @@ input:checked + label {
     </p>
   </section>
 
+  <section class="section">
+    <h2 class="section-title">:is(), :where() y :has()</h2>
+    <p class="section-desc">
+      Son pseudo-clases más nuevas (CSS Selectors nivel 4) que agregan lógica al selector: agrupar alternativas, o mirar hacia adentro de un elemento en vez de solo hacia afuera. Al igual que <CodeInline>:not()</CodeInline>, se escriben con un solo <CodeInline>:</CodeInline> porque siguen siendo pseudo-clases, no pseudo-elementos.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`/* Sin :is(), hay que repetir el descendiente para cada contenedor */
+header a, main a, footer a {
+  color: blue;
+}
+
+/* Con :is(), se agrupan las alternativas en un solo selector */
+:is(header, main, footer) a {
+  color: blue;
+}`}
+    />
+    <p class="section-desc">
+      <CodeInline>:is()</CodeInline> toma una lista de selectores separados por coma y matchea si el elemento cumple con <strong>cualquiera</strong> de ellos, ahorrando repetición. La especificidad de <CodeInline>:is(...)</CodeInline> es la del selector más específico de la lista.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`/* :where() hace lo mismo que :is(), pero su especificidad es siempre 0 */
+:where(header, main, footer) a {
+  color: blue;
+}
+
+/* por eso es fácil de sobrescribir después con un selector simple */
+a {
+  color: purple;
+}`}
+    />
+    <p class="section-desc">
+      La diferencia entre <CodeInline>:is()</CodeInline> y <CodeInline>:where()</CodeInline> es solo la especificidad: <CodeInline>:where()</CodeInline> vale <CodeInline>0-0-0</CodeInline> sin importar lo que tenga adentro, así que cualquier otro selector normal lo puede pisar sin pelear con la especificidad. Es ideal para estilos base o de librerías, donde no querés imponerte sobre el CSS de quien lo use.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`/* :has() selecciona un elemento según lo que tiene ADENTRO */
+.card:has(img) {
+  padding: 0;
+}
+
+/* también sirve para reaccionar a un descendiente con cierto estado */
+label:has(input:checked) {
+  font-weight: 600;
+}
+
+/* o para el caso contrario: tarjetas que NO tienen imagen */
+.card:not(:has(img)) {
+  padding: 1.5rem;
+}`}
+    />
+    <p class="section-desc">
+      <CodeInline>:has()</CodeInline> es distinto a todo lo anterior: hasta su llegada, CSS solo podía seleccionar hacia abajo o hacia los costados (descendientes, hermanos), nunca hacia arriba. <CodeInline>:has()</CodeInline> permite justamente eso — estilar un elemento <strong>padre</strong> según lo que contiene, algo que antes exigía JavaScript.
+    </p>
+  </section>
+
   <Note>
     <CodeInline>:first-child</CodeInline> exige que el elemento sea literalmente el primer hijo de su padre, aunque sea de otro tipo. Si buscás "el primer <CodeInline>&lt;li&gt;</CodeInline> entre sus hermanos <CodeInline>&lt;li&gt;</CodeInline>", la pseudo-clase correcta es <CodeInline>:first-of-type</CodeInline>.
   </Note>
@@ -135,6 +192,7 @@ input:checked + label {
   <div class="tag-list">
     <Tag color={color}>estados</Tag>
     <Tag color={color}>nth-child</Tag>
+    <Tag color={color}>:has()</Tag>
     <Tag color={color}>pseudo-clases</Tag>
   </div>
 </ConceptLayout>
